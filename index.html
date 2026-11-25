@@ -1,8 +1,8 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="A reusable First School Leaving Certificate generator for schools.">
 <title>First School Leaving Certificate Generator</title>
@@ -15,7 +15,9 @@
   --paper2: #f4dfad;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -27,15 +29,22 @@ body {
 header {
   padding: 22px 4%;
   background: #142744;
-  color: white;
+  color: #fff;
 }
 
-header h1 { margin: 0 0 5px; font-size: 28px; }
-header p { margin: 0; color: #d6dfed; }
+header h1 {
+  margin: 0 0 5px;
+  font-size: clamp(21px, 3vw, 30px);
+}
+
+header p {
+  margin: 0;
+  color: #d6dfed;
+}
 
 .app {
   display: grid;
-  grid-template-columns: minmax(280px,370px) minmax(0,1fr);
+  grid-template-columns: minmax(280px, 370px) minmax(0, 1fr);
   gap: 22px;
   padding: 22px;
   max-width: 1500px;
@@ -44,38 +53,50 @@ header p { margin: 0; color: #d6dfed; }
 }
 
 .panel {
-  background: white;
+  background: #fff;
   border: 1px solid #dce3ec;
   border-radius: 12px;
   padding: 18px;
   box-shadow: 0 4px 18px #1427440c;
 }
 
-.panel h2 { font-size: 18px; margin: 0 0 15px; color: #142744; }
+.panel h2 {
+  font-size: 18px;
+  margin: 0 0 15px;
+  color: #142744;
+}
 
-.field { margin-bottom: 12px; }
+.field {
+  margin-bottom: 12px;
+}
 
 .field label {
   display: block;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 13px;
   margin-bottom: 5px;
 }
 
-.field input, .field textarea {
+.field input,
+.field textarea {
   width: 100%;
   padding: 10px 11px;
   border: 1px solid #cbd5e1;
   border-radius: 7px;
   font: inherit;
-  background: white;
+  background: #fff;
   color: #172b4d;
 }
 
-.field textarea { min-height: 65px; resize: vertical; }
+.field textarea {
+  min-height: 75px;
+  resize: vertical;
+}
 
-.field input:focus, .field textarea:focus {
+.field input:focus,
+.field textarea:focus {
   outline: 2px solid #9db7df;
+  border-color: #5077ad;
 }
 
 .two {
@@ -98,11 +119,9 @@ header p { margin: 0; color: #d6dfed; }
   letter-spacing: .7px;
 }
 
-/* BACKGROUND COLOUR OPTIONS */
-
 .palette {
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
 }
 
@@ -135,7 +154,7 @@ header p { margin: 0; color: #d6dfed; }
   align-items: center;
 }
 
-.color-row input[type=color] {
+.color-row input[type="color"] {
   width: 48px;
   height: 40px;
   padding: 2px;
@@ -157,7 +176,7 @@ header p { margin: 0; color: #d6dfed; }
   padding: 11px 15px;
   background: #172b4d;
   color: white;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -166,7 +185,9 @@ header p { margin: 0; color: #d6dfed; }
   color: #172b4d;
 }
 
-.btn:hover { filter: brightness(1.08); }
+.btn:hover {
+  filter: brightness(1.08);
+}
 
 .hint {
   font-size: 12px;
@@ -174,18 +195,23 @@ header p { margin: 0; color: #d6dfed; }
   margin: 6px 0 0;
 }
 
-/* CERTIFICATE DESIGN */
-
-.preview-wrap { min-width: 0; }
+.preview-wrap {
+  min-width: 0;
+}
 
 .preview-title {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   align-items: center;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
 }
 
-.preview-title h2 { font-size: 18px; margin: 0; }
+.preview-title h2 {
+  font-size: 18px;
+  margin: 0;
+  color: #142744;
+}
 
 .preview-scroll {
   overflow: auto;
@@ -204,13 +230,7 @@ header p { margin: 0; color: #d6dfed; }
   aspect-ratio: 297 / 210;
   margin: auto;
   padding: 2.4%;
-
-  background: linear-gradient(
-    135deg,
-    var(--paper),
-    var(--paper2)
-  );
-
+  background: linear-gradient(135deg, var(--paper), var(--paper2));
   color: var(--ink);
   position: relative;
   box-shadow: 0 8px 28px #172b4d22;
@@ -238,11 +258,10 @@ header p { margin: 0; color: #d6dfed; }
 .cert-inner {
   height: 100%;
   border: 1px solid var(--gold);
-  padding: 2.2% 6%;
+  padding: 1.8% 6%;
   text-align: center;
   position: relative;
   z-index: 1;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -251,17 +270,64 @@ header p { margin: 0; color: #d6dfed; }
 
 .cert-top {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  font-size: clamp(8px,.9vw,12px);
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: 1fr 82px 1fr;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(8px, .9vw, 12px);
 }
 
-.logo {
-  width: 68px;
-  height: 68px;
-  object-fit: contain;
+.cert-top .serial {
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.cert-top .contact {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+/* Fixed school logo frame */
+.logo-frame {
+  width: 76px;
+  height: 76px;
+  justify-self: center;
+  border: 1px dashed var(--gold);
+  border-radius: 9px;
+  background: rgba(255,255,255,.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  padding: 5px;
+}
+
+.logo-frame img {
   display: none;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.logo-placeholder {
+  font: bold 9px/1.3 Arial, sans-serif;
+  letter-spacing: .6px;
+  color: #82652e;
+  text-align: center;
+  user-select: none;
+}
+
+.logo-frame.has-logo .logo-placeholder {
+  display: none;
+}
+
+.logo-frame.has-logo img {
+  display: block;
 }
 
 .school {
@@ -269,44 +335,47 @@ header p { margin: 0; color: #d6dfed; }
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  font-size: clamp(18px,2.5vw,30px);
+  font-size: clamp(18px, 2.5vw, 30px);
   margin: 2px 0 3px;
+  overflow-wrap: anywhere;
 }
 
 .address {
-  font-size: clamp(9px,1vw,13px);
+  font-size: clamp(9px, 1vw, 13px);
   margin: 0;
 }
 
 .rule {
   width: 65%;
   border-top: 2px solid var(--gold);
-  margin: 1.3% auto;
+  margin: 1.1% auto;
 }
 
 .cert-heading {
   font-family: Georgia, serif;
   color: var(--gold);
-  font-size: clamp(20px,2.8vw,34px);
+  font-size: clamp(20px, 2.8vw, 34px);
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin: 1.1% 0;
+  margin: 1% 0;
 }
 
 .subtitle {
-  font: italic clamp(11px,1.2vw,16px) Georgia,serif;
+  font: italic clamp(11px, 1.2vw, 16px) Georgia, serif;
   margin: 0;
 }
 
 .student {
-  font: bold clamp(22px,3vw,37px) Georgia,serif;
+  font: bold clamp(22px, 3vw, 37px) Georgia, serif;
   border-bottom: 2px solid var(--gold);
   padding: 3px 28px 6px;
-  margin: 1.2% 0;
+  margin: 1% 0;
+  overflow-wrap: anywhere;
+  max-width: 90%;
 }
 
 .statement {
-  font: clamp(10px,1.15vw,15px)/1.55 Georgia,serif;
+  font: clamp(10px, 1.1vw, 14px)/1.5 Georgia, serif;
   max-width: 850px;
   margin: 1% auto;
 }
@@ -316,9 +385,9 @@ header p { margin: 0; color: #d6dfed; }
   grid-template-columns: 1fr 1fr;
   gap: 4px 24px;
   text-align: left;
-  font-size: clamp(9px,1vw,13px);
+  font-size: clamp(9px, 1vw, 13px);
   width: 75%;
-  margin: 1.5% auto;
+  margin: 1.3% auto;
 }
 
 .signatures {
@@ -331,7 +400,7 @@ header p { margin: 0; color: #d6dfed; }
 
 .sig {
   width: 35%;
-  font-size: clamp(9px,1vw,13px);
+  font-size: clamp(9px, 1vw, 13px);
 }
 
 .sigline {
@@ -339,39 +408,125 @@ header p { margin: 0; color: #d6dfed; }
   padding-top: 5px;
 }
 
-.seal {
+/*
+  METALLIC RED EMBOSSED ROSETTE SEAL
+
+  - Starburst / rosette edge
+  - Shiny metallic red finish
+  - Raised embossed rings
+  - Blank centre
+  - No wording or lettering
+*/
+.foil-seal {
   position: absolute;
   right: 7%;
-  bottom: 14%;
-  width: 72px;
-  height: 72px;
-  border: 2px solid var(--gold);
+  bottom: 13%;
+  width: 88px;
+  height: 88px;
+  display: block;
+  transform: rotate(-7deg);
+
+  clip-path: polygon(
+    50% 0%, 55.74% 6.38%, 62.94% 1.70%,
+    66.84% 9.35%, 75% 6.70%, 76.79% 15.09%,
+    85.36% 14.64%, 84.91% 23.21%, 93.30% 25%,
+    90.65% 33.16%, 98.30% 37.06%, 93.62% 44.26%,
+    100% 50%, 93.62% 55.74%, 98.30% 62.94%,
+    90.65% 66.84%, 93.30% 75%, 84.91% 76.79%,
+    85.36% 85.36%, 76.79% 84.91%, 75% 93.30%,
+    66.84% 90.65%, 62.94% 98.30%, 55.74% 93.62%,
+    50% 100%, 44.26% 93.62%, 37.06% 98.30%,
+    33.16% 90.65%, 25% 93.30%, 23.21% 84.91%,
+    14.64% 85.36%, 15.09% 76.79%, 6.70% 75%,
+    9.35% 66.84%, 1.70% 62.94%, 6.38% 55.74%,
+    0% 50%, 6.38% 44.26%, 1.70% 37.06%,
+    9.35% 33.16%, 6.70% 25%, 15.09% 23.21%,
+    14.64% 14.64%, 23.21% 15.09%, 25% 6.70%,
+    33.16% 9.35%, 37.06% 1.70%, 44.26% 6.38%
+  );
+
+  background: repeating-conic-gradient(
+    from -7deg,
+    #79070d 0deg,
+    #e54b4d 3deg,
+    #ffb0a0 5deg,
+    #b81720 8deg,
+    #76060d 11deg,
+    #e84b4c 14deg,
+    #ffb9a8 16deg,
+    #a90e18 19deg
+  );
+
+  filter: drop-shadow(0 3px 2px #3d090a66);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Raised metallic outer surface */
+.foil-seal:before {
+  content: "";
+  position: absolute;
+  inset: 5px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold);
-  font: bold 10px Georgia,serif;
-  transform: rotate(-12deg);
-  opacity: .85;
+
+  background: radial-gradient(
+    ellipse at 30% 20%,
+    #ffd0c5 0%,
+    #f47770 13%,
+    #c51d27 34%,
+    #8b0811 58%,
+    #e13d40 76%,
+    #6d050b 100%
+  );
+
+  border: 1px solid #ffb2a6;
+
+  box-shadow:
+    inset 0 2px 3px #ffe0d688,
+    inset 0 -5px 7px #4e000099,
+    0 0 0 2px #8a0911,
+    0 0 0 3px #f58a7d;
+}
+
+/* Inner embossed circular ring with a blank centre */
+.foil-seal:after {
+  content: "";
+  position: absolute;
+  inset: 15px;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    ellipse at 32% 22%,
+    #f77b73 0%,
+    #c51e29 35%,
+    #850811 72%,
+    #b91520 100%
+  );
+
+  border: 2px solid #f8a095;
+
+  box-shadow:
+    inset 0 2px 3px #ffd4c466,
+    inset 0 -3px 5px #4e000088,
+    0 0 0 1px #74050b;
 }
 
 .footer {
-  font-size: clamp(8px,.85vw,11px);
-  margin-top: 1.2%;
+  font-size: clamp(8px, .85vw, 11px);
+  margin-top: 1.1%;
   opacity: .8;
 }
 
-@media(max-width:900px) {
+@media (max-width: 900px) {
   .app {
     grid-template-columns: 1fr;
     padding: 14px;
   }
 
-  .certificate { min-width: 600px; }
+  .certificate {
+    min-width: 600px;
+  }
 }
-
-/* PRINT SETTINGS */
 
 @media print {
   @page {
@@ -379,9 +534,14 @@ header p { margin: 0; color: #d6dfed; }
     margin: 0;
   }
 
-  body { background: white; }
+  body {
+    background: #fff;
+  }
 
-  .no-print, header, .panel, .preview-title {
+  .no-print,
+  header,
+  .panel,
+  .preview-title {
     display: none !important;
   }
 
@@ -392,7 +552,8 @@ header p { margin: 0; color: #d6dfed; }
     max-width: none;
   }
 
-  .preview-wrap, .preview-scroll {
+  .preview-wrap,
+  .preview-scroll {
     padding: 0;
     margin: 0;
     overflow: visible;
@@ -409,7 +570,9 @@ header p { margin: 0; color: #d6dfed; }
     page-break-after: avoid;
   }
 
-  .cert-inner { padding: 2.2% 6%; }
+  .cert-inner {
+    padding: 1.8% 6%;
+  }
 }
 </style>
 </head>
@@ -423,273 +586,363 @@ header p { margin: 0; color: #d6dfed; }
 
 <main class="app">
 
-<aside class="panel no-print">
+  <aside class="panel no-print">
 
-<h2>Certificate details</h2>
+    <h2>Certificate details</h2>
 
-<div class="field">
-<label for="schoolName">School name</label>
-<input id="schoolName" value="Golden Light International School">
-</div>
+    <div class="field">
+      <label for="schoolName">School name</label>
+      <input id="schoolName" value="Golden Light International School">
+    </div>
 
-<div class="field">
-<label for="schoolAddress">School address</label>
-<input id="schoolAddress" value="Lagos State, Nigeria">
-</div>
+    <div class="field">
+      <label for="schoolAddress">School address</label>
+      <input id="schoolAddress" value="Lagos State, Nigeria">
+    </div>
 
-<div class="field">
-<label for="schoolContact">School contact (optional)</label>
-<input id="schoolContact" placeholder="Phone number, email or website">
-</div>
+    <div class="field">
+      <label for="schoolContact">School contact (optional)</label>
+      <input id="schoolContact" placeholder="Phone number, email or website">
+    </div>
 
-<div class="field">
-<label for="logoUpload">School logo</label>
-<input id="logoUpload" type="file" accept="image/*">
-<p class="hint">Choose a logo image from your device.</p>
-</div>
+    <div class="field">
+      <label for="logoUpload">School logo</label>
+      <input
+        id="logoUpload"
+        type="file"
+        accept="image/png,image/jpeg,image/webp,image/svg+xml"
+      >
+      <p class="hint">
+        The logo stays inside a fixed 76 × 76 px frame.
+        Transparent space around a logo is preserved;
+        oversized images are contained, never stretched
+        or allowed to spill out.
+      </p>
+    </div>
 
-<div class="section">
-<h3>Student details</h3>
+    <div class="section">
+      <h3>Student details</h3>
 
-<div class="field">
-<label for="studentName">Student's full name</label>
-<input id="studentName" value="Chisom Example">
-</div>
+      <div class="field">
+        <label for="studentName">Student's full name</label>
+        <input id="studentName" value="Chisom Example">
+      </div>
 
-<div class="two">
-<div class="field">
-<label for="dob">Date of birth</label>
-<input id="dob" type="date">
-</div>
+      <div class="two">
+        <div class="field">
+          <label for="dob">Date of birth</label>
+          <input id="dob" type="date">
+        </div>
 
-<div class="field">
-<label for="admission">Admission number</label>
-<input id="admission" placeholder="GLIS/2019/045">
-</div>
-</div>
+        <div class="field">
+          <label for="admission">Admission number</label>
+          <input id="admission" placeholder="GLIS/2019/045">
+        </div>
+      </div>
 
-<div class="two">
-<div class="field">
-<label for="session">Academic session</label>
-<input id="session" value="2025/2026">
-</div>
+      <div class="two">
+        <div class="field">
+          <label for="session">Academic session</label>
+          <input id="session" value="2025/2026">
+        </div>
 
-<div class="field">
-<label for="completion">Completion date</label>
-<input id="completion" type="date">
-</div>
-</div>
+        <div class="field">
+          <label for="completion">Completion date</label>
+          <input id="completion" type="date">
+        </div>
+      </div>
 
-<div class="field">
-<label for="serial">Certificate number</label>
-<input id="serial" value="FSLC/2026/001">
-</div>
-</div>
+      <div class="field">
+        <label for="serial">Certificate number</label>
+        <input id="serial" value="FSLC/2026/001">
+      </div>
+    </div>
 
-<div class="section">
-<h3>Certificate background</h3>
+    <div class="section">
+      <h3>Certificate background</h3>
 
-<div class="palette">
+      <div class="palette">
 
-<button class="swatch" type="button"
-data-bg="#fff3d8" data-bg2="#f4dfad"
-aria-pressed="true">
-<span style="background:linear-gradient(135deg,#fff3d8,#f4dfad)"></span>
-Ivory gold
-</button>
+        <button
+          class="swatch"
+          type="button"
+          data-bg="#fff3d8"
+          data-bg2="#f4dfad"
+          aria-pressed="true"
+        >
+          <span style="background:linear-gradient(135deg,#fff3d8,#f4dfad)"></span>
+          Ivory gold
+        </button>
 
-<button class="swatch" type="button"
-data-bg="#dceeff" data-bg2="#b8d8f4">
-<span style="background:linear-gradient(135deg,#dceeff,#b8d8f4)"></span>
-Sky blue
-</button>
+        <button
+          class="swatch"
+          type="button"
+          data-bg="#dceeff"
+          data-bg2="#b8d8f4"
+          aria-pressed="false"
+        >
+          <span style="background:linear-gradient(135deg,#dceeff,#b8d8f4)"></span>
+          Sky blue
+        </button>
 
-<button class="swatch" type="button"
-data-bg="#e2f1df" data-bg2="#c3dfbd">
-<span style="background:linear-gradient(135deg,#e2f1df,#c3dfbd)"></span>
-Mint green
-</button>
+        <button
+          class="swatch"
+          type="button"
+          data-bg="#e2f1df"
+          data-bg2="#c3dfbd"
+          aria-pressed="false"
+        >
+          <span style="background:linear-gradient(135deg,#e2f1df,#c3dfbd)"></span>
+          Mint green
+        </button>
 
-<button class="swatch" type="button"
-data-bg="#f8dfe8" data-bg2="#edc2d2">
-<span style="background:linear-gradient(135deg,#f8dfe8,#edc2d2)"></span>
-Blush pink
-</button>
+        <button
+          class="swatch"
+          type="button"
+          data-bg="#f8dfe8"
+          data-bg2="#edc2d2"
+          aria-pressed="false"
+        >
+          <span style="background:linear-gradient(135deg,#f8dfe8,#edc2d2)"></span>
+          Blush pink
+        </button>
 
-<button class="swatch" type="button"
-data-bg="#e8e1f7" data-bg2="#d0c3ed">
-<span style="background:linear-gradient(135deg,#e8e1f7,#d0c3ed)"></span>
-Lavender
-</button>
+        <button
+          class="swatch"
+          type="button"
+          data-bg="#e8e1f7"
+          data-bg2="#d0c3ed"
+          aria-pressed="false"
+        >
+          <span style="background:linear-gradient(135deg,#e8e1f7,#d0c3ed)"></span>
+          Lavender
+        </button>
 
-<button class="swatch" type="button"
-data-bg="#f7e7cf" data-bg2="#e9c99f">
-<span style="background:linear-gradient(135deg,#f7e7cf,#e9c99f)"></span>
-Peach
-</button>
+        <button
+          class="swatch"
+          type="button"
+          data-bg="#f7e7cf"
+          data-bg2="#e9c99f"
+          aria-pressed="false"
+        >
+          <span style="background:linear-gradient(135deg,#f7e7cf,#e9c99f)"></span>
+          Peach
+        </button>
 
-<button class="swatch" type="button"
-data-bg="#e3e7eb" data-bg2="#cbd3dc">
-<span style="background:linear-gradient(135deg,#e3e7eb,#cbd3dc)"></span>
-Silver
-</button>
+        <button
+          class="swatch"
+          type="button"
+          data-bg="#e3e7eb"
+          data-bg2="#cbd3dc"
+          aria-pressed="false"
+        >
+          <span style="background:linear-gradient(135deg,#e3e7eb,#cbd3dc)"></span>
+          Silver
+        </button>
 
-<button class="swatch" type="button"
-data-bg="#f2e4c9" data-bg2="#dfc58f">
-<span style="background:linear-gradient(135deg,#f2e4c9,#dfc58f)"></span>
-Champagne
-</button>
+        <button
+          class="swatch"
+          type="button"
+          data-bg="#f2e4c9"
+          data-bg2="#dfc58f"
+          aria-pressed="false"
+        >
+          <span style="background:linear-gradient(135deg,#f2e4c9,#dfc58f)"></span>
+          Champagne
+        </button>
 
-</div>
+      </div>
 
-<div class="field" style="margin-top:12px">
-<label for="customBg">Choose your own background colour</label>
+      <div class="field" style="margin-top:12px">
+        <label for="customBg">Choose your own background colour</label>
 
-<div class="color-row">
-<input id="customBg" type="color" value="#fff3d8">
-<span class="hint">Pick any colour. A lighter shade is generated automatically.</span>
-</div>
-</div>
-</div>
+        <div class="color-row">
+          <input id="customBg" type="color" value="#fff3d8">
 
-<div class="section">
-<h3>Certificate wording & signatures</h3>
+          <span class="hint">
+            Pick any colour; a lighter companion shade is generated automatically.
+          </span>
+        </div>
+      </div>
+    </div>
 
-<div class="field">
-<label for="wording">Certificate statement</label>
-<textarea id="wording">Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.</textarea>
-</div>
+    <div class="section">
+      <h3>Certificate wording & signatures</h3>
 
-<div class="two">
-<div class="field">
-<label for="sign1">First signatory title</label>
-<input id="sign1" value="Headteacher">
-</div>
+      <div class="field">
+        <label for="wording">Certificate statement</label>
 
-<div class="field">
-<label for="sign2">Second signatory title</label>
-<input id="sign2" value="Proprietor / Proprietress">
-</div>
-</div>
-</div>
+        <textarea id="wording">Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.</textarea>
+      </div>
 
-<div class="btns">
-<button class="btn" id="printBtn" type="button">
-Print / Save as PDF
-</button>
+      <div class="two">
+        <div class="field">
+          <label for="sign1">First signatory title</label>
+          <input id="sign1" value="Headteacher">
+        </div>
 
-<button class="btn secondary" id="resetBtn" type="button">
-Reset details
-</button>
-</div>
+        <div class="field">
+          <label for="sign2">Second signatory title</label>
+          <input id="sign2" value="Proprietor / Proprietress">
+        </div>
+      </div>
+    </div>
 
-<p class="hint">
-For best print results, enable "Background graphics" in your browser's print settings.
-</p>
+    <div class="btns">
+      <button class="btn" id="printBtn" type="button">
+        Print / Save as PDF
+      </button>
 
-</aside>
+      <button class="btn secondary" id="resetBtn" type="button">
+        Reset details
+      </button>
+    </div>
 
-<section class="preview-wrap">
+    <p class="hint">
+      For best print results, enable “Background graphics” in your browser's print settings.
+    </p>
 
-<div class="preview-title no-print">
-<h2>Live certificate preview</h2>
-<span class="hint">A4 landscape</span>
-</div>
+  </aside>
 
-<div class="preview-scroll">
+  <section class="preview-wrap">
 
-<article class="certificate" id="certificate">
+    <div class="preview-title no-print">
+      <h2>Live certificate preview</h2>
+      <span class="hint">A4 landscape</span>
+    </div>
 
-<div class="cert-inner">
+    <div class="preview-scroll">
 
-<div class="cert-top">
-<span id="previewSerial">Certificate No: FSLC/2026/001</span>
-<img class="logo" id="previewLogo" alt="School logo">
-<span id="previewContact"></span>
-</div>
+      <article
+        class="certificate"
+        id="certificate"
+        aria-label="Certificate preview"
+      >
 
-<h2 class="school" id="previewSchool">
-Golden Light International School
-</h2>
+        <div class="cert-inner">
 
-<p class="address" id="previewAddress">
-Lagos State, Nigeria
-</p>
+          <div class="cert-top">
 
-<div class="rule"></div>
+            <span class="serial" id="previewSerial">
+              Certificate No: FSLC/2026/001
+            </span>
 
-<h1 class="cert-heading">
-First School Leaving Certificate
-</h1>
+            <div class="logo-frame" id="logoFrame">
+              <span class="logo-placeholder">
+                SCHOOL<br>LOGO
+              </span>
 
-<p class="subtitle">This is to certify that</p>
+              <img id="previewLogo" alt="Uploaded school logo">
+            </div>
 
-<div class="student" id="previewStudent">
-Chisom Example
-</div>
+            <span class="contact" id="previewContact"></span>
 
-<p class="statement" id="previewWording">
-Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.
-</p>
+          </div>
 
-<div class="details">
+          <h2 class="school" id="previewSchool">
+            Golden Light International School
+          </h2>
 
-<div>
-<strong>Date of Birth:</strong>
-<span id="previewDob">—</span>
-</div>
+          <p class="address" id="previewAddress">
+            Lagos State, Nigeria
+          </p>
 
-<div>
-<strong>Admission Number:</strong>
-<span id="previewAdmission">—</span>
-</div>
+          <div class="rule"></div>
 
-<div>
-<strong>Academic Session:</strong>
-<span id="previewSession">2025/2026</span>
-</div>
+          <h1 class="cert-heading">
+            First School Leaving Certificate
+          </h1>
 
-<div>
-<strong>Date of Completion:</strong>
-<span id="previewCompletion">—</span>
-</div>
+          <p class="subtitle">This is to certify that</p>
 
-</div>
+          <div class="student" id="previewStudent">
+            Chisom Example
+          </div>
 
-<div class="seal">SCHOOL<br>SEAL</div>
+          <p class="statement" id="previewWording">
+            Having satisfactorily completed the prescribed course of study
+            in the Primary School Programme and fulfilled the school's
+            academic requirements, is hereby awarded this First School
+            Leaving Certificate.
+          </p>
 
-<div class="signatures">
+          <div class="details">
 
-<div class="sig">
-<div class="sigline" id="previewSign1">Headteacher</div>
-</div>
+            <div>
+              <strong>Date of Birth:</strong>
+              <span id="previewDob">—</span>
+            </div>
 
-<div class="sig">
-<div class="sigline" id="previewSign2">Proprietor / Proprietress</div>
-</div>
+            <div>
+              <strong>Admission Number:</strong>
+              <span id="previewAdmission">—</span>
+            </div>
 
-</div>
+            <div>
+              <strong>Academic Session:</strong>
+              <span id="previewSession">2025/2026</span>
+            </div>
 
-<p class="footer" id="previewFooter">
-Issued by the management of Golden Light International School.
-</p>
+            <div>
+              <strong>Date of Completion:</strong>
+              <span id="previewCompletion">—</span>
+            </div>
 
-</div>
-</article>
+          </div>
 
-</div>
-</section>
+          <!-- Blank-centre metallic red embossed rosette seal -->
+          <div
+            class="foil-seal"
+            role="img"
+            aria-label="Decorative red embossed rosette seal"
+          ></div>
+
+          <div class="signatures">
+
+            <div class="sig">
+              <div class="sigline" id="previewSign1">
+                Headteacher
+              </div>
+            </div>
+
+            <div class="sig">
+              <div class="sigline" id="previewSign2">
+                Proprietor / Proprietress
+              </div>
+            </div>
+
+          </div>
+
+          <p class="footer" id="previewFooter">
+            Issued by the management of Golden Light International School.
+          </p>
+
+        </div>
+      </article>
+
+    </div>
+  </section>
+
 </main>
 
 <script>
 'use strict';
 
-const $ = (id) => document.getElementById(id);
+const $ = id => document.getElementById(id);
 
 const fields = [
-  'schoolName','schoolAddress','schoolContact',
-  'studentName','dob','admission','session',
-  'completion','serial','wording','sign1','sign2'
+  'schoolName',
+  'schoolAddress',
+  'schoolContact',
+  'studentName',
+  'dob',
+  'admission',
+  'session',
+  'completion',
+  'serial',
+  'wording',
+  'sign1',
+  'sign2'
 ];
 
 function formatDate(value) {
@@ -705,7 +958,6 @@ function formatDate(value) {
 }
 
 function updatePreview() {
-
   $('previewSchool').textContent =
     $('schoolName').value.trim() || 'SCHOOL NAME';
 
@@ -751,16 +1003,13 @@ fields.forEach(id => {
   $(id).addEventListener('input', updatePreview);
 });
 
-/* PRINT CERTIFICATE */
-
+/* Print certificate or save it as PDF */
 $('printBtn').addEventListener('click', () => {
   window.print();
 });
 
-/* SCHOOL LOGO UPLOAD */
-
+/* School logo upload */
 $('logoUpload').addEventListener('change', event => {
-
   const file = event.target.files && event.target.files[0];
 
   if (!file) return;
@@ -775,7 +1024,7 @@ $('logoUpload').addEventListener('change', event => {
 
   reader.onload = () => {
     $('previewLogo').src = reader.result;
-    $('previewLogo').style.display = 'block';
+    $('logoFrame').classList.add('has-logo');
   };
 
   reader.onerror = () => {
@@ -785,10 +1034,8 @@ $('logoUpload').addEventListener('change', event => {
   reader.readAsDataURL(file);
 });
 
-/* CUSTOM BACKGROUND COLOUR */
-
+/* Background colour helpers */
 function hexToRgb(hex) {
-
   const value = hex.replace('#', '');
 
   return {
@@ -799,64 +1046,53 @@ function hexToRgb(hex) {
 }
 
 function lighten(hex, amount = 0.13) {
-
   const c = hexToRgb(hex);
 
-  const n = [c.r, c.g, c.b].map(v =>
-    Math.round(v + (255 - v) * amount)
+  const n = [c.r, c.g, c.b].map(value =>
+    Math.round(value + (255 - value) * amount)
   );
 
-  return '#' + n.map(v =>
-    v.toString(16).padStart(2, '0')
+  return '#' + n.map(value =>
+    value.toString(16).padStart(2, '0')
   ).join('');
 }
 
 function setBackground(bg, bg2) {
-
-  const cert = $('certificate');
-
-  cert.style.setProperty('--paper', bg);
-  cert.style.setProperty('--paper2', bg2);
+  $('certificate').style.setProperty('--paper', bg);
+  $('certificate').style.setProperty('--paper2', bg2);
 
   $('customBg').value = bg;
 
-  document.querySelectorAll('.swatch').forEach(btn => {
-
-    btn.setAttribute(
+  document.querySelectorAll('.swatch').forEach(button => {
+    button.setAttribute(
       'aria-pressed',
-      String(btn.dataset.bg.toLowerCase() === bg.toLowerCase())
+      String(button.dataset.bg.toLowerCase() === bg.toLowerCase())
     );
-
   });
 }
 
-document.querySelectorAll('.swatch').forEach(btn => {
-
-  btn.addEventListener('click', () => {
-    setBackground(btn.dataset.bg, btn.dataset.bg2);
+/* Preset background colours */
+document.querySelectorAll('.swatch').forEach(button => {
+  button.addEventListener('click', () => {
+    setBackground(button.dataset.bg, button.dataset.bg2);
   });
-
 });
 
+/* Custom background colour */
 $('customBg').addEventListener('input', event => {
-
   setBackground(
     event.target.value,
     lighten(event.target.value)
   );
-
 });
 
-/* RESET FORM */
-
+/* Reset certificate */
 $('resetBtn').addEventListener('click', () => {
-
   if (!confirm('Reset all certificate details to the sample values?')) {
     return;
   }
 
   const defaults = {
-
     schoolName: 'Golden Light International School',
     schoolAddress: 'Lagos State, Nigeria',
     schoolContact: '',
@@ -880,16 +1116,16 @@ $('resetBtn').addEventListener('click', () => {
   $('logoUpload').value = '';
 
   $('previewLogo').removeAttribute('src');
-  $('previewLogo').style.display = 'none';
+
+  $('logoFrame').classList.remove('has-logo');
 
   setBackground('#fff3d8', '#f4dfad');
 
   updatePreview();
-
 });
 
+/* Initial preview */
 updatePreview();
-
 </script>
 
 </body>
