@@ -1,0 +1,896 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A reusable First School Leaving Certificate generator for schools.">
+<title>First School Leaving Certificate Generator</title>
+
+<style>
+:root {
+  --ink: #172b4d;
+  --gold: #b08d42;
+  --paper: #fff3d8;
+  --paper2: #f4dfad;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #edf1f6;
+  color: #1d2939;
+  font: 15px/1.5 Arial, sans-serif;
+}
+
+header {
+  padding: 22px 4%;
+  background: #142744;
+  color: white;
+}
+
+header h1 { margin: 0 0 5px; font-size: 28px; }
+header p { margin: 0; color: #d6dfed; }
+
+.app {
+  display: grid;
+  grid-template-columns: minmax(280px,370px) minmax(0,1fr);
+  gap: 22px;
+  padding: 22px;
+  max-width: 1500px;
+  margin: auto;
+  align-items: start;
+}
+
+.panel {
+  background: white;
+  border: 1px solid #dce3ec;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 18px #1427440c;
+}
+
+.panel h2 { font-size: 18px; margin: 0 0 15px; color: #142744; }
+
+.field { margin-bottom: 12px; }
+
+.field label {
+  display: block;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.field input, .field textarea {
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font: inherit;
+  background: white;
+  color: #172b4d;
+}
+
+.field textarea { min-height: 65px; resize: vertical; }
+
+.field input:focus, .field textarea:focus {
+  outline: 2px solid #9db7df;
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.section {
+  border-top: 1px solid #e5eaf0;
+  padding-top: 14px;
+  margin-top: 15px;
+}
+
+.section h3 {
+  font-size: 14px;
+  margin: 0 0 12px;
+  color: #9a742d;
+  text-transform: uppercase;
+  letter-spacing: .7px;
+}
+
+/* BACKGROUND COLOUR OPTIONS */
+
+.palette {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 8px;
+}
+
+.swatch {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 5px;
+  background: #f7f7f7;
+  cursor: pointer;
+  text-align: center;
+  font-size: 11px;
+  color: #263449;
+}
+
+.swatch span {
+  display: block;
+  height: 30px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.swatch[aria-pressed="true"] {
+  border-color: #172b4d;
+  background: #eef3fa;
+}
+
+.color-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.color-row input[type=color] {
+  width: 48px;
+  height: 40px;
+  padding: 2px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+}
+
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 7px;
+  padding: 11px 15px;
+  background: #172b4d;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn.secondary {
+  background: #e8edf4;
+  color: #172b4d;
+}
+
+.btn:hover { filter: brightness(1.08); }
+
+.hint {
+  font-size: 12px;
+  color: #667085;
+  margin: 6px 0 0;
+}
+
+/* CERTIFICATE DESIGN */
+
+.preview-wrap { min-width: 0; }
+
+.preview-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.preview-title h2 { font-size: 18px; margin: 0; }
+
+.preview-scroll {
+  overflow: auto;
+  padding: 8px 2px 18px;
+}
+
+.certificate {
+  --paper: #fff3d8;
+  --paper2: #f4dfad;
+  --ink: #172b4d;
+  --gold: #b08d42;
+
+  width: 100%;
+  max-width: 1050px;
+  min-width: 650px;
+  aspect-ratio: 297 / 210;
+  margin: auto;
+  padding: 2.4%;
+
+  background: linear-gradient(
+    135deg,
+    var(--paper),
+    var(--paper2)
+  );
+
+  color: var(--ink);
+  position: relative;
+  box-shadow: 0 8px 28px #172b4d22;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+  overflow: hidden;
+}
+
+.certificate:before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 5px double var(--gold);
+  pointer-events: none;
+}
+
+.certificate:after {
+  content: "";
+  position: absolute;
+  inset: 23px;
+  border: 1px solid var(--gold);
+  pointer-events: none;
+}
+
+.cert-inner {
+  height: 100%;
+  border: 1px solid var(--gold);
+  padding: 2.2% 6%;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.cert-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: clamp(8px,.9vw,12px);
+}
+
+.logo {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  display: none;
+}
+
+.school {
+  font-family: Georgia, serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: clamp(18px,2.5vw,30px);
+  margin: 2px 0 3px;
+}
+
+.address {
+  font-size: clamp(9px,1vw,13px);
+  margin: 0;
+}
+
+.rule {
+  width: 65%;
+  border-top: 2px solid var(--gold);
+  margin: 1.3% auto;
+}
+
+.cert-heading {
+  font-family: Georgia, serif;
+  color: var(--gold);
+  font-size: clamp(20px,2.8vw,34px);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 1.1% 0;
+}
+
+.subtitle {
+  font: italic clamp(11px,1.2vw,16px) Georgia,serif;
+  margin: 0;
+}
+
+.student {
+  font: bold clamp(22px,3vw,37px) Georgia,serif;
+  border-bottom: 2px solid var(--gold);
+  padding: 3px 28px 6px;
+  margin: 1.2% 0;
+}
+
+.statement {
+  font: clamp(10px,1.15vw,15px)/1.55 Georgia,serif;
+  max-width: 850px;
+  margin: 1% auto;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 24px;
+  text-align: left;
+  font-size: clamp(9px,1vw,13px);
+  width: 75%;
+  margin: 1.5% auto;
+}
+
+.signatures {
+  display: flex;
+  justify-content: space-between;
+  width: 78%;
+  margin: auto auto 0;
+  padding-top: 2%;
+}
+
+.sig {
+  width: 35%;
+  font-size: clamp(9px,1vw,13px);
+}
+
+.sigline {
+  border-top: 1px solid var(--ink);
+  padding-top: 5px;
+}
+
+.seal {
+  position: absolute;
+  right: 7%;
+  bottom: 14%;
+  width: 72px;
+  height: 72px;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font: bold 10px Georgia,serif;
+  transform: rotate(-12deg);
+  opacity: .85;
+}
+
+.footer {
+  font-size: clamp(8px,.85vw,11px);
+  margin-top: 1.2%;
+  opacity: .8;
+}
+
+@media(max-width:900px) {
+  .app {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .certificate { min-width: 600px; }
+}
+
+/* PRINT SETTINGS */
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  body { background: white; }
+
+  .no-print, header, .panel, .preview-title {
+    display: none !important;
+  }
+
+  .app {
+    display: block;
+    padding: 0;
+    margin: 0;
+    max-width: none;
+  }
+
+  .preview-wrap, .preview-scroll {
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .certificate {
+    width: 297mm;
+    height: 210mm;
+    max-width: none;
+    min-width: 0;
+    aspect-ratio: auto;
+    margin: 0;
+    box-shadow: none;
+    page-break-after: avoid;
+  }
+
+  .cert-inner { padding: 2.2% 6%; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="no-print">
+  <h1>First School Leaving Certificate Generator</h1>
+  <p>Create, customise and print certificates for any school.</p>
+</header>
+
+<main class="app">
+
+<aside class="panel no-print">
+
+<h2>Certificate details</h2>
+
+<div class="field">
+<label for="schoolName">School name</label>
+<input id="schoolName" value="Golden Light International School">
+</div>
+
+<div class="field">
+<label for="schoolAddress">School address</label>
+<input id="schoolAddress" value="Lagos State, Nigeria">
+</div>
+
+<div class="field">
+<label for="schoolContact">School contact (optional)</label>
+<input id="schoolContact" placeholder="Phone number, email or website">
+</div>
+
+<div class="field">
+<label for="logoUpload">School logo</label>
+<input id="logoUpload" type="file" accept="image/*">
+<p class="hint">Choose a logo image from your device.</p>
+</div>
+
+<div class="section">
+<h3>Student details</h3>
+
+<div class="field">
+<label for="studentName">Student's full name</label>
+<input id="studentName" value="Chisom Example">
+</div>
+
+<div class="two">
+<div class="field">
+<label for="dob">Date of birth</label>
+<input id="dob" type="date">
+</div>
+
+<div class="field">
+<label for="admission">Admission number</label>
+<input id="admission" placeholder="GLIS/2019/045">
+</div>
+</div>
+
+<div class="two">
+<div class="field">
+<label for="session">Academic session</label>
+<input id="session" value="2025/2026">
+</div>
+
+<div class="field">
+<label for="completion">Completion date</label>
+<input id="completion" type="date">
+</div>
+</div>
+
+<div class="field">
+<label for="serial">Certificate number</label>
+<input id="serial" value="FSLC/2026/001">
+</div>
+</div>
+
+<div class="section">
+<h3>Certificate background</h3>
+
+<div class="palette">
+
+<button class="swatch" type="button"
+data-bg="#fff3d8" data-bg2="#f4dfad"
+aria-pressed="true">
+<span style="background:linear-gradient(135deg,#fff3d8,#f4dfad)"></span>
+Ivory gold
+</button>
+
+<button class="swatch" type="button"
+data-bg="#dceeff" data-bg2="#b8d8f4">
+<span style="background:linear-gradient(135deg,#dceeff,#b8d8f4)"></span>
+Sky blue
+</button>
+
+<button class="swatch" type="button"
+data-bg="#e2f1df" data-bg2="#c3dfbd">
+<span style="background:linear-gradient(135deg,#e2f1df,#c3dfbd)"></span>
+Mint green
+</button>
+
+<button class="swatch" type="button"
+data-bg="#f8dfe8" data-bg2="#edc2d2">
+<span style="background:linear-gradient(135deg,#f8dfe8,#edc2d2)"></span>
+Blush pink
+</button>
+
+<button class="swatch" type="button"
+data-bg="#e8e1f7" data-bg2="#d0c3ed">
+<span style="background:linear-gradient(135deg,#e8e1f7,#d0c3ed)"></span>
+Lavender
+</button>
+
+<button class="swatch" type="button"
+data-bg="#f7e7cf" data-bg2="#e9c99f">
+<span style="background:linear-gradient(135deg,#f7e7cf,#e9c99f)"></span>
+Peach
+</button>
+
+<button class="swatch" type="button"
+data-bg="#e3e7eb" data-bg2="#cbd3dc">
+<span style="background:linear-gradient(135deg,#e3e7eb,#cbd3dc)"></span>
+Silver
+</button>
+
+<button class="swatch" type="button"
+data-bg="#f2e4c9" data-bg2="#dfc58f">
+<span style="background:linear-gradient(135deg,#f2e4c9,#dfc58f)"></span>
+Champagne
+</button>
+
+</div>
+
+<div class="field" style="margin-top:12px">
+<label for="customBg">Choose your own background colour</label>
+
+<div class="color-row">
+<input id="customBg" type="color" value="#fff3d8">
+<span class="hint">Pick any colour. A lighter shade is generated automatically.</span>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h3>Certificate wording & signatures</h3>
+
+<div class="field">
+<label for="wording">Certificate statement</label>
+<textarea id="wording">Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.</textarea>
+</div>
+
+<div class="two">
+<div class="field">
+<label for="sign1">First signatory title</label>
+<input id="sign1" value="Headteacher">
+</div>
+
+<div class="field">
+<label for="sign2">Second signatory title</label>
+<input id="sign2" value="Proprietor / Proprietress">
+</div>
+</div>
+</div>
+
+<div class="btns">
+<button class="btn" id="printBtn" type="button">
+Print / Save as PDF
+</button>
+
+<button class="btn secondary" id="resetBtn" type="button">
+Reset details
+</button>
+</div>
+
+<p class="hint">
+For best print results, enable "Background graphics" in your browser's print settings.
+</p>
+
+</aside>
+
+<section class="preview-wrap">
+
+<div class="preview-title no-print">
+<h2>Live certificate preview</h2>
+<span class="hint">A4 landscape</span>
+</div>
+
+<div class="preview-scroll">
+
+<article class="certificate" id="certificate">
+
+<div class="cert-inner">
+
+<div class="cert-top">
+<span id="previewSerial">Certificate No: FSLC/2026/001</span>
+<img class="logo" id="previewLogo" alt="School logo">
+<span id="previewContact"></span>
+</div>
+
+<h2 class="school" id="previewSchool">
+Golden Light International School
+</h2>
+
+<p class="address" id="previewAddress">
+Lagos State, Nigeria
+</p>
+
+<div class="rule"></div>
+
+<h1 class="cert-heading">
+First School Leaving Certificate
+</h1>
+
+<p class="subtitle">This is to certify that</p>
+
+<div class="student" id="previewStudent">
+Chisom Example
+</div>
+
+<p class="statement" id="previewWording">
+Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.
+</p>
+
+<div class="details">
+
+<div>
+<strong>Date of Birth:</strong>
+<span id="previewDob">—</span>
+</div>
+
+<div>
+<strong>Admission Number:</strong>
+<span id="previewAdmission">—</span>
+</div>
+
+<div>
+<strong>Academic Session:</strong>
+<span id="previewSession">2025/2026</span>
+</div>
+
+<div>
+<strong>Date of Completion:</strong>
+<span id="previewCompletion">—</span>
+</div>
+
+</div>
+
+<div class="seal">SCHOOL<br>SEAL</div>
+
+<div class="signatures">
+
+<div class="sig">
+<div class="sigline" id="previewSign1">Headteacher</div>
+</div>
+
+<div class="sig">
+<div class="sigline" id="previewSign2">Proprietor / Proprietress</div>
+</div>
+
+</div>
+
+<p class="footer" id="previewFooter">
+Issued by the management of Golden Light International School.
+</p>
+
+</div>
+</article>
+
+</div>
+</section>
+</main>
+
+<script>
+'use strict';
+
+const $ = (id) => document.getElementById(id);
+
+const fields = [
+  'schoolName','schoolAddress','schoolContact',
+  'studentName','dob','admission','session',
+  'completion','serial','wording','sign1','sign2'
+];
+
+function formatDate(value) {
+  if (!value) return '—';
+
+  const date = new Date(value + 'T00:00:00');
+
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+}
+
+function updatePreview() {
+
+  $('previewSchool').textContent =
+    $('schoolName').value.trim() || 'SCHOOL NAME';
+
+  $('previewAddress').textContent =
+    $('schoolAddress').value.trim();
+
+  $('previewContact').textContent =
+    $('schoolContact').value.trim();
+
+  $('previewSerial').textContent =
+    'Certificate No: ' + ($('serial').value.trim() || '—');
+
+  $('previewStudent').textContent =
+    $('studentName').value.trim() || "STUDENT'S FULL NAME";
+
+  $('previewWording').textContent =
+    $('wording').value.trim();
+
+  $('previewDob').textContent =
+    formatDate($('dob').value);
+
+  $('previewAdmission').textContent =
+    $('admission').value.trim() || '—';
+
+  $('previewSession').textContent =
+    $('session').value.trim() || '—';
+
+  $('previewCompletion').textContent =
+    formatDate($('completion').value);
+
+  $('previewSign1').textContent =
+    $('sign1').value.trim() || ' ';
+
+  $('previewSign2').textContent =
+    $('sign2').value.trim() || ' ';
+
+  $('previewFooter').textContent =
+    'Issued by the management of ' +
+    ($('schoolName').value.trim() || 'the school') + '.';
+}
+
+fields.forEach(id => {
+  $(id).addEventListener('input', updatePreview);
+});
+
+/* PRINT CERTIFICATE */
+
+$('printBtn').addEventListener('click', () => {
+  window.print();
+});
+
+/* SCHOOL LOGO UPLOAD */
+
+$('logoUpload').addEventListener('change', event => {
+
+  const file = event.target.files && event.target.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    alert('Please choose an image file for the school logo.');
+    event.target.value = '';
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    $('previewLogo').src = reader.result;
+    $('previewLogo').style.display = 'block';
+  };
+
+  reader.onerror = () => {
+    alert('The logo could not be read. Please try another image.');
+  };
+
+  reader.readAsDataURL(file);
+});
+
+/* CUSTOM BACKGROUND COLOUR */
+
+function hexToRgb(hex) {
+
+  const value = hex.replace('#', '');
+
+  return {
+    r: parseInt(value.slice(0, 2), 16),
+    g: parseInt(value.slice(2, 4), 16),
+    b: parseInt(value.slice(4, 6), 16)
+  };
+}
+
+function lighten(hex, amount = 0.13) {
+
+  const c = hexToRgb(hex);
+
+  const n = [c.r, c.g, c.b].map(v =>
+    Math.round(v + (255 - v) * amount)
+  );
+
+  return '#' + n.map(v =>
+    v.toString(16).padStart(2, '0')
+  ).join('');
+}
+
+function setBackground(bg, bg2) {
+
+  const cert = $('certificate');
+
+  cert.style.setProperty('--paper', bg);
+  cert.style.setProperty('--paper2', bg2);
+
+  $('customBg').value = bg;
+
+  document.querySelectorAll('.swatch').forEach(btn => {
+
+    btn.setAttribute(
+      'aria-pressed',
+      String(btn.dataset.bg.toLowerCase() === bg.toLowerCase())
+    );
+
+  });
+}
+
+document.querySelectorAll('.swatch').forEach(btn => {
+
+  btn.addEventListener('click', () => {
+    setBackground(btn.dataset.bg, btn.dataset.bg2);
+  });
+
+});
+
+$('customBg').addEventListener('input', event => {
+
+  setBackground(
+    event.target.value,
+    lighten(event.target.value)
+  );
+
+});
+
+/* RESET FORM */
+
+$('resetBtn').addEventListener('click', () => {
+
+  if (!confirm('Reset all certificate details to the sample values?')) {
+    return;
+  }
+
+  const defaults = {
+
+    schoolName: 'Golden Light International School',
+    schoolAddress: 'Lagos State, Nigeria',
+    schoolContact: '',
+    studentName: 'Chisom Example',
+    dob: '',
+    admission: '',
+    session: '2025/2026',
+    completion: '',
+    serial: 'FSLC/2026/001',
+
+    wording: "Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.",
+
+    sign1: 'Headteacher',
+    sign2: 'Proprietor / Proprietress'
+  };
+
+  Object.entries(defaults).forEach(([id, value]) => {
+    $(id).value = value;
+  });
+
+  $('logoUpload').value = '';
+
+  $('previewLogo').removeAttribute('src');
+  $('previewLogo').style.display = 'none';
+
+  setBackground('#fff3d8', '#f4dfad');
+
+  updatePreview();
+
+});
+
+updatePreview();
+
+</script>
+
+</body>
+</html>
