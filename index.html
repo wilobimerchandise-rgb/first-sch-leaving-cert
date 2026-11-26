@@ -66,6 +66,8 @@ body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.5 var(--font)}
 
 .swatch:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .swatch[aria-pressed="true"]{border-color:var(--selected-border);background:var(--selected);font-weight:700}
+.field .check{display:flex;align-items:center;gap:.6rem;min-height:2.75rem;margin:.25rem 0 0;font-weight:400}
+.field .check input{flex:none;width:1.25rem;height:1.25rem;min-height:0;padding:0;accent-color:var(--accent)}
 .color-row{display:flex;gap:.75rem;align-items:center}
 .field .color-row input[type="color"]{width:3.5rem;padding:.15rem}
 
@@ -95,8 +97,8 @@ dialog p{margin:0}
 .preview-scroll{overflow-x:auto;padding:.5rem .125rem 1rem}
 .preview-scroll:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 
-.certificate{
 
+.certificate{
   --paper:#fff3d8;--paper2:#f4dfad;--ink:#172b4d;--gold:#b08d42;--gold-text:#7a5a18;
   container-type:inline-size;position:relative;overflow:hidden;
   width:100%;max-width:65.625rem;min-width:37.5rem;aspect-ratio:297/210;margin-inline:auto;padding:2.4%;
@@ -108,10 +110,10 @@ dialog p{margin:0}
 .certificate::before{content:"";position:absolute;inset:12px;border:5px double var(--gold);pointer-events:none}
 .certificate::after{content:"";position:absolute;inset:23px;border:1px solid var(--gold);pointer-events:none}
 .cert-inner{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;padding:2.2% 5% 1.2%;border:1px solid var(--gold);text-align:center;overflow:hidden}
-.cert-meta{display:flex;justify-content:space-between;align-items:flex-start;gap:2cqw;width:100%;min-height:2.3cqw;margin-block-end:1.1%;flex:none;font-size:1cqw;line-height:1.25;text-align:start}
+.cert-meta{display:flex;justify-content:space-between;align-items:flex-start;gap:2cqw;width:100%;min-height:2.3cqw;margin-block-end:1.5cqw;flex:none;font-size:1cqw;line-height:1.25;text-align:start}
 .cert-meta .serial,.cert-meta .contact{max-width:45%;overflow-wrap:anywhere}
 .cert-meta .contact{margin-inline-start:auto;text-align:end}
-.brand-row{display:flex;align-items:center;justify-content:center;gap:1.5cqw;width:100%;min-height:7.4cqw;margin:0 auto 2px;flex:none}
+.brand-row{display:flex;align-items:center;justify-content:center;gap:1.5cqw;width:100%;min-height:7.4cqw;margin:0 auto 1cqw;flex:none}
 .logo-frame{position:relative;display:flex;align-items:center;justify-content:center;flex:none;width:8.4cqw;height:8.4cqw;padding:.6cqw;overflow:hidden;border:1px dashed var(--gold);border-radius:.9cqw;background:#ffffff59;pointer-events:none}
 .logo-frame img{display:none;width:100%;height:100%;object-fit:contain;object-position:center}
 .logo-placeholder{font:700 .9cqw/1.3 Arial,Helvetica,sans-serif;letter-spacing:.06em;text-align:center;color:var(--gold-text);user-select:none}
@@ -119,21 +121,25 @@ dialog p{margin:0}
 .logo-frame.has-logo .logo-placeholder{display:none}
 .logo-frame.has-logo img{display:block}
 .school{max-width:78%;margin:.2cqw 0 .3cqw;font:700 2.5cqw/1.2 var(--serif);text-transform:uppercase;letter-spacing:.08em;overflow-wrap:anywhere}
-.address{margin:0;font-size:1.15cqw}
-.rule{width:65%;margin:.65% auto;border-top:2px solid var(--gold)}
-.cert-heading{margin:.45% 0;font:700 2.9cqw/1.2 var(--serif);color:var(--gold-text);text-transform:uppercase;letter-spacing:.06em}
-.subtitle{margin:0;font:italic 1.3cqw var(--serif)}
-.student{max-width:90%;margin:.45% 0;padding:.2cqw 2.7cqw .4cqw;border-bottom:2px solid var(--gold);font:700 3.2cqw var(--serif);overflow-wrap:anywhere}
-.statement{max-width:90%;margin:.55% auto;font:1.2cqw/1.45 var(--serif)}
-.details{display:grid;grid-template-columns:1fr 1fr;gap:.3cqw 2.3cqw;width:75%;margin:.7% auto .3%;font-size:1.1cqw;text-align:start}
+.address{margin:.4cqw 0 0;font-size:1.15cqw;line-height:1.5}
+.rule{width:65%;margin:1.6cqw auto;border-top:2px solid var(--gold)}
+.cert-heading{margin:.6cqw 0 1cqw;font:700 2.9cqw/1.2 var(--serif);color:var(--gold-text);text-transform:uppercase;letter-spacing:.06em}
+.subtitle{margin:0 0 1cqw;font:italic 1.3cqw/1.4 var(--serif)}
+.student{max-width:90%;margin:0 0 1.8cqw;padding:.4cqw 2.7cqw .8cqw;border-bottom:2px solid var(--gold);font:700 3.2cqw var(--serif);overflow-wrap:anywhere}
+.statement{max-width:90%;margin:0 auto 2.4cqw;font:1.2cqw/1.7 var(--serif)}
+.details{display:grid;grid-template-columns:1fr 1fr;gap:1cqw 2.3cqw;width:75%;margin:0 auto 2cqw;font-size:1.1cqw;line-height:1.5;text-align:start}
 .details div{display:flex;flex-wrap:wrap;gap:.35em}
+
 .details dt{font-weight:700}
 .details dd{margin:0}
-
-.signatures{display:flex;justify-content:space-evenly;align-items:flex-end;width:72%;margin:auto auto 0;padding-top:1.2%;flex:none}
+.signatures{display:flex;justify-content:space-evenly;align-items:flex-end;width:72%;margin:auto auto 0;padding-top:2cqw;flex:none}
 .sig{width:42%;font-size:1.1cqw}
 .sigline{min-height:1.6em;padding-top:.5cqw;border-top:1px solid var(--ink)}
-.footer{align-self:center;width:78%;margin:1% 0 0;font-size:.95cqw;opacity:.85}
+.footer{align-self:center;width:78%;margin:1.4cqw 0 0;font-size:.95cqw;opacity:.85}
+
+.watermark{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none;mix-blend-mode:multiply}
+.watermark[hidden]{display:none}
+.certificate[data-ink="light"] .watermark{mix-blend-mode:normal}
 
 .seal{position:absolute;right:5.5%;bottom:7.5%;z-index:10;width:8cqw;aspect-ratio:1;transform:rotate(-7deg);filter:drop-shadow(0 3px 2px #3d090a66)}
 .rosette{position:relative;isolation:isolate;display:block;width:100%;height:100%;
@@ -156,13 +162,13 @@ dialog p{margin:0}
   .no-print{display:none}
   .app{display:block;max-width:none;margin:0;padding:0}
   .preview-wrap,.preview-scroll{margin:0;padding:0;overflow:visible}
+
   .certificate{width:297mm;height:calc(210mm - 1px);max-width:none;min-width:0;margin:0;box-shadow:none;break-after:avoid;break-inside:avoid}
   .logo-frame:not(.has-logo){display:none}
 }
 </style>
 </head>
 <body>
-
 <header class="site-header no-print">
   <h1>First School Leaving Certificate Generator</h1>
   <p>Create, customise and print certificates for any school.</p>
@@ -187,7 +193,9 @@ dialog p{margin:0}
         <label for="logoUpload">School logo (optional)</label>
         <input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
         <p class="hint">PNG, JPG, WebP or SVG, up to 2 MB. The logo is fitted inside a square frame, never stretched or allowed to spill out.</p>
+        <label class="check" for="watermarkToggle"><input id="watermarkToggle" type="checkbox" checked> Show the logo as a faint watermark pattern</label>
         <p class="notice" id="logoNotice" role="status" hidden>
+
           <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M12 3 2 21h20L12 3ZM13 17h-2v-2h2v2ZM13 13h-2V9h2v4Z"/></svg>
           <span></span>
         </p>
@@ -195,7 +203,6 @@ dialog p{margin:0}
 
       <div class="section">
         <h3>Student details</h3>
-
         <div class="field">
           <label for="studentName">Student's full name</label>
           <input id="studentName" type="text" required maxlength="60" autocapitalize="words">
@@ -221,6 +228,7 @@ dialog p{margin:0}
           </div>
         </div>
         <div class="field">
+
           <label for="serial">Certificate number</label>
           <input id="serial" type="text" required maxlength="30">
         </div>
@@ -228,7 +236,6 @@ dialog p{margin:0}
 
       <div class="section">
         <h3 id="bgHeading">Certificate background</h3>
-
         <div class="palette" id="palette" role="group" aria-labelledby="bgHeading"></div>
         <div class="field" style="margin-top:.75rem">
           <label for="customBg">Choose your own background colour</label>
@@ -254,6 +261,7 @@ dialog p{margin:0}
             <label for="sign2">Second signatory title</label>
             <input id="sign2" type="text" maxlength="40">
           </div>
+
         </div>
       </div>
 
@@ -261,7 +269,6 @@ dialog p{margin:0}
         <button class="btn" id="printBtn" type="button">Print / Save as PDF</button>
         <button class="btn secondary" id="resetBtn" type="button">Reset details</button>
       </div>
-
       <p class="hint">Fields not marked optional are required before you can print. For best print results, enable “Background graphics” in your browser's print settings.</p>
     </form>
   </section>
@@ -277,7 +284,17 @@ dialog p{margin:0}
     </p>
     <div class="preview-scroll" tabindex="0" role="region" aria-label="Certificate preview, scrolls sideways on small screens">
       <article class="certificate" id="certificate" data-ink="dark" aria-label="Certificate preview">
+        <svg class="watermark" id="watermark" viewBox="0 0 297 210" preserveAspectRatio="xMidYMid slice" aria-hidden="true" hidden>
+          <defs>
+            <pattern id="wmPattern" width="32" height="32" patternUnits="userSpaceOnUse">
+              <image x="2" y="2" width="12" height="12" opacity="0.1" preserveAspectRatio="xMidYMid meet"/>
+              <image x="18" y="18" width="12" height="12" opacity="0.1" preserveAspectRatio="xMidYMid meet"/>
+            </pattern>
+          </defs>
+          <rect width="297" height="210" fill="url(#wmPattern)"/>
+        </svg>
         <div class="cert-inner" id="certInner">
+
           <div class="cert-meta">
             <span class="serial" id="previewSerial"></span>
             <span class="contact" id="previewContact"></span>
@@ -294,7 +311,6 @@ dialog p{margin:0}
           <h3 class="cert-heading">First School Leaving Certificate</h3>
           <p class="subtitle">This is to certify that</p>
           <p class="student" id="previewStudent"></p>
-
           <p class="statement" id="previewWording"></p>
           <dl class="details">
             <div><dt>Date of Birth:</dt><dd id="previewDob"></dd></div>
@@ -311,6 +327,7 @@ dialog p{margin:0}
         </div>
       </article>
     </div>
+
   </section>
 </main>
 
@@ -327,7 +344,6 @@ dialog p{margin:0}
 
 <script type="module">
 const $ = id => document.getElementById(id);
-
 const controller = new AbortController();
 const { signal } = controller;
 
@@ -344,6 +360,7 @@ const SAMPLE = {
   wording: "Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.",
   sign1: 'Headteacher',
   sign2: 'Proprietor / Proprietress'
+
 };
 const DEFAULT_PAPER = { bg: '#fff3d8', bg2: '#f4dfad' };
 const PALETTE = [
@@ -360,13 +377,14 @@ const LOGO_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/svg+
 const MAX_LOGO_BYTES = 2 * 1024 * 1024;
 const MIN_DATE = '1950-01-01';
 const DARK_INK = '#172b4d';
-
 const LIGHT_INK = '#fffaf0';
 
 const form = $('certForm');
 const certificate = $('certificate');
 const previewLogo = $('previewLogo');
 const logoFrame = $('logoFrame');
+const watermark = $('watermark');
+const watermarkToggle = $('watermarkToggle');
 let logoUrl = null;
 
 const dateFormat = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -375,6 +393,7 @@ function parseIsoDate(value) {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
   return match ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3])) : null;
 }
+
 
 function formatDate(value) {
   const date = parseIsoDate(value);
@@ -394,7 +413,6 @@ function showNotice(id, message) {
   notice.querySelector('span').textContent = message;
 }
 
-
 function validateRelations() {
   const dob = $('dob');
   const completion = $('completion');
@@ -408,11 +426,22 @@ function validateRelations() {
 
 function checkLayout() {
   const inner = $('certInner');
+
   const overflows = inner.scrollHeight > inner.clientHeight + 1 || inner.scrollWidth > inner.clientWidth + 1;
   showNotice('layoutNotice', overflows
     ? 'The text is too long to fit on the certificate. Shorten the statement, names or address before printing.'
     : '');
   return !overflows;
+}
+
+function syncWatermark() {
+  const src = previewLogo.getAttribute('src');
+  const visible = Boolean(src) && logoFrame.classList.contains('has-logo') && watermarkToggle.checked;
+  watermark.toggleAttribute('hidden', !visible);
+  watermark.querySelectorAll('image').forEach(tile => {
+    if (!visible) tile.removeAttribute('href');
+    else if (tile.getAttribute('href') !== src) tile.setAttribute('href', src);
+  });
 }
 
 function updatePreview() {
@@ -426,13 +455,14 @@ function updatePreview() {
   setText('previewWording', value('wording'));
   setText('previewDob', formatDate($('dob').value));
   setText('previewAdmission', value('admission') || '—');
-
   setText('previewSession', value('session') || '—');
   setText('previewCompletion', formatDate($('completion').value));
   setText('previewSign1', value('sign1') || ' ');
   setText('previewSign2', value('sign2') || ' ');
+
   setText('previewFooter', `Issued by the management of ${value('schoolName') || 'the school'}.`);
   validateRelations();
+  syncWatermark();
   checkLayout();
 }
 
@@ -459,10 +489,10 @@ function luminance(hex) {
     return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
   };
   return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
-
 }
 
 function contrast(a, b) {
+
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
 
@@ -492,10 +522,10 @@ function buildPalette() {
     button.dataset.bg2 = bg2;
     button.setAttribute('aria-pressed', 'false');
     const chip = document.createElement('span');
-
     chip.className = 'chip';
     chip.style.setProperty('--a', bg);
     chip.style.setProperty('--b', bg2);
+
     button.append(chip, name);
     group.append(button);
   });
@@ -512,6 +542,7 @@ function clearLogo() {
   }
   previewLogo.removeAttribute('src');
   logoFrame.classList.remove('has-logo');
+  syncWatermark();
 }
 
 function applyValues(values) {
@@ -521,16 +552,18 @@ function applyValues(values) {
 function applyDefaults() {
   applyValues(SAMPLE);
   $('logoUpload').value = '';
+  watermarkToggle.checked = true;
   clearLogo();
   showNotice('logoNotice', '');
   setPaper(DEFAULT_PAPER.bg, DEFAULT_PAPER.bg2);
   updatePreview();
-
 }
+
 
 previewLogo.addEventListener('load', () => {
   logoFrame.classList.add('has-logo');
   showNotice('logoNotice', '');
+  syncWatermark();
   checkLayout();
 }, { signal });
 
