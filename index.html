@@ -30,7 +30,6 @@
     --notice-bg:#3a2410;--notice-border:#f79009;--notice-text:#ffd9b8;
   }
 }
-
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.5 var(--font)}
@@ -63,7 +62,6 @@ body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.5 var(--font)}
 .swatch .chip{display:block;height:1.9rem;margin-block-end:.25rem;border:1px solid var(--border);border-radius:.3rem;background:linear-gradient(135deg,var(--a),var(--b))}
 .swatch:hover{border-color:var(--border)}
 .swatch:active{transform:translateY(1px)}
-
 .swatch:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .swatch[aria-pressed="true"]{border-color:var(--selected-border);background:var(--selected);font-weight:700}
 .field .check{display:flex;align-items:center;gap:.6rem;min-height:2.75rem;margin:.25rem 0 0;font-weight:400}
@@ -97,10 +95,9 @@ dialog p{margin:0}
 .preview-scroll{overflow-x:auto;padding:.5rem .125rem 1rem}
 .preview-scroll:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 
-
 .certificate{
   --paper:#fff3d8;--paper2:#f4dfad;--ink:#172b4d;--gold:#b08d42;--gold-text:#7a5a18;
-  container-type:inline-size;position:relative;overflow:hidden;
+  container-type:inline-size;position:relative;isolation:isolate;overflow:hidden;
   width:100%;max-width:65.625rem;min-width:37.5rem;aspect-ratio:297/210;margin-inline:auto;padding:2.4%;
   background:linear-gradient(135deg,var(--paper),var(--paper2));color:var(--ink);
   font-family:Arial,Helvetica,sans-serif;box-shadow:0 8px 28px #172b4d22;
@@ -129,7 +126,6 @@ dialog p{margin:0}
 .statement{max-width:90%;margin:0 auto 2.4cqw;font:1.2cqw/1.7 var(--serif)}
 .details{display:grid;grid-template-columns:1fr 1fr;gap:1cqw 2.3cqw;width:75%;margin:0 auto 2cqw;font-size:1.1cqw;line-height:1.5;text-align:start}
 .details div{display:flex;flex-wrap:wrap;gap:.35em}
-
 .details dt{font-weight:700}
 .details dd{margin:0}
 .signatures{display:flex;justify-content:space-evenly;align-items:flex-end;width:72%;margin:auto auto 0;padding-top:2cqw;flex:none}
@@ -162,7 +158,6 @@ dialog p{margin:0}
   .no-print{display:none}
   .app{display:block;max-width:none;margin:0;padding:0}
   .preview-wrap,.preview-scroll{margin:0;padding:0;overflow:visible}
-
   .certificate{width:297mm;height:calc(210mm - 1px);max-width:none;min-width:0;margin:0;box-shadow:none;break-after:avoid;break-inside:avoid}
   .logo-frame:not(.has-logo){display:none}
 }
@@ -195,7 +190,6 @@ dialog p{margin:0}
         <p class="hint">PNG, JPG, WebP or SVG, up to 2 MB. The logo is fitted inside a square frame, never stretched or allowed to spill out.</p>
         <label class="check" for="watermarkToggle"><input id="watermarkToggle" type="checkbox" checked> Show the logo as a faint watermark pattern</label>
         <p class="notice" id="logoNotice" role="status" hidden>
-
           <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M12 3 2 21h20L12 3ZM13 17h-2v-2h2v2ZM13 13h-2V9h2v4Z"/></svg>
           <span></span>
         </p>
@@ -228,7 +222,6 @@ dialog p{margin:0}
           </div>
         </div>
         <div class="field">
-
           <label for="serial">Certificate number</label>
           <input id="serial" type="text" required maxlength="30">
         </div>
@@ -261,7 +254,6 @@ dialog p{margin:0}
             <label for="sign2">Second signatory title</label>
             <input id="sign2" type="text" maxlength="40">
           </div>
-
         </div>
       </div>
 
@@ -269,7 +261,7 @@ dialog p{margin:0}
         <button class="btn" id="printBtn" type="button">Print / Save as PDF</button>
         <button class="btn secondary" id="resetBtn" type="button">Reset details</button>
       </div>
-      <p class="hint">Fields not marked optional are required before you can print. For best print results, enable “Background graphics” in your browser's print settings.</p>
+      <p class="hint">Fields not marked optional are required before you can print. For best print results, enable “Background graphics” in your browser's print settings and set Color to “Color”. If the printout looks grey, the print dialog is set to black and white.</p>
     </form>
   </section>
 
@@ -294,7 +286,6 @@ dialog p{margin:0}
           <rect width="297" height="210" fill="url(#wmPattern)"/>
         </svg>
         <div class="cert-inner" id="certInner">
-
           <div class="cert-meta">
             <span class="serial" id="previewSerial"></span>
             <span class="contact" id="previewContact"></span>
@@ -327,7 +318,6 @@ dialog p{margin:0}
         </div>
       </article>
     </div>
-
   </section>
 </main>
 
@@ -360,7 +350,6 @@ const SAMPLE = {
   wording: "Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.",
   sign1: 'Headteacher',
   sign2: 'Proprietor / Proprietress'
-
 };
 const DEFAULT_PAPER = { bg: '#fff3d8', bg2: '#f4dfad' };
 const PALETTE = [
@@ -394,7 +383,6 @@ function parseIsoDate(value) {
   return match ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3])) : null;
 }
 
-
 function formatDate(value) {
   const date = parseIsoDate(value);
   return date ? dateFormat.format(date) : '—';
@@ -426,7 +414,6 @@ function validateRelations() {
 
 function checkLayout() {
   const inner = $('certInner');
-
   const overflows = inner.scrollHeight > inner.clientHeight + 1 || inner.scrollWidth > inner.clientWidth + 1;
   showNotice('layoutNotice', overflows
     ? 'The text is too long to fit on the certificate. Shorten the statement, names or address before printing.'
@@ -459,7 +446,6 @@ function updatePreview() {
   setText('previewCompletion', formatDate($('completion').value));
   setText('previewSign1', value('sign1') || ' ');
   setText('previewSign2', value('sign2') || ' ');
-
   setText('previewFooter', `Issued by the management of ${value('schoolName') || 'the school'}.`);
   validateRelations();
   syncWatermark();
@@ -492,7 +478,6 @@ function luminance(hex) {
 }
 
 function contrast(a, b) {
-
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
 
@@ -525,7 +510,6 @@ function buildPalette() {
     chip.className = 'chip';
     chip.style.setProperty('--a', bg);
     chip.style.setProperty('--b', bg2);
-
     button.append(chip, name);
     group.append(button);
   });
@@ -559,7 +543,6 @@ function applyDefaults() {
   updatePreview();
 }
 
-
 previewLogo.addEventListener('load', () => {
   logoFrame.classList.add('has-logo');
   showNotice('logoNotice', '');
@@ -591,7 +574,6 @@ $('logoUpload').addEventListener('change', event => {
     return;
   }
   logoUrl = URL.createObjectURL(file);
-
   previewLogo.src = logoUrl;
 }, { signal });
 
@@ -624,7 +606,6 @@ window.addEventListener('pagehide', event => {
 
 buildPalette();
 applyDefaults();
-
 </script>
 </body>
 </html>
