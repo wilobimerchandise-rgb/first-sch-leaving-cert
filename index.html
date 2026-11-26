@@ -6,11 +6,13 @@
 <meta name="color-scheme" content="light dark">
 <meta name="description" content="A reusable First School Leaving Certificate generator for schools.">
 <title>First School Leaving Certificate Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Great+Vibes&display=swap">
 <style>
 :root{
   color-scheme:light dark;
   --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  --serif:Georgia,"Times New Roman",serif;
   --bg:#edf1f6;--surface:#ffffff;--field:#ffffff;--text:#1d2939;--heading:#142744;--muted:#566176;
   --border:#7b8aa0;--divider:#e5eaf0;
   --accent:#172b4d;--on-accent:#ffffff;--secondary:#e8edf4;--on-secondary:#172b4d;
@@ -33,6 +35,7 @@
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.5 var(--font)}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
 
 .site-header{padding:1.25rem 1rem;background:var(--header);color:var(--on-header)}
 .site-header h1{margin:0 0 .25rem;font-size:clamp(1.3rem,1rem + 1.5vw,1.9rem)}
@@ -96,54 +99,56 @@ dialog p{margin:0}
 .preview-scroll:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 
 .certificate{
-  --paper:#fff3d8;--paper2:#f4dfad;--ink:#172b4d;--gold:#b08d42;--gold-text:#7a5a18;
+  --paper:#fff3d8;--paper2:#f4dfad;--ink:#2a2116;--gold:#b08d42;--gold-text:#7a5a18;--name-ink:#3a2a12;
   container-type:inline-size;position:relative;isolation:isolate;overflow:hidden;
-  width:100%;max-width:65.625rem;min-width:37.5rem;aspect-ratio:297/210;margin-inline:auto;padding:2.4%;
-  background:linear-gradient(135deg,var(--paper),var(--paper2));color:var(--ink);
-  font-family:Arial,Helvetica,sans-serif;box-shadow:0 8px 28px #172b4d22;
+  width:100%;max-width:65.625rem;min-width:37.5rem;aspect-ratio:297/210;margin-inline:auto;
+  background:radial-gradient(ellipse at 50% 46%,#8a642000 52%,#8a64202e 100%),linear-gradient(135deg,var(--paper),var(--paper2));
+  color:var(--ink);font-family:"EB Garamond",Garamond,Georgia,"Times New Roman",serif;
+  box-shadow:0 8px 28px #2a211622;
   -webkit-print-color-adjust:exact;print-color-adjust:exact;
 }
-.certificate[data-ink="light"]{--ink:#fffaf0;--gold:#e0b866;--gold-text:#f0cf85}
-.certificate::before{content:"";position:absolute;inset:12px;border:5px double var(--gold);pointer-events:none}
-.certificate::after{content:"";position:absolute;inset:23px;border:1px solid var(--gold);pointer-events:none}
-.cert-inner{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;padding:2.2% 5% 1.2%;border:1px solid var(--gold);text-align:center;overflow:hidden}
-.cert-meta{display:flex;justify-content:space-between;align-items:flex-start;gap:2cqw;width:100%;min-height:2.3cqw;margin-block-end:1.5cqw;flex:none;font-size:1cqw;line-height:1.25;text-align:start}
-.cert-meta .serial,.cert-meta .contact{max-width:45%;overflow-wrap:anywhere}
-.cert-meta .contact{margin-inline-start:auto;text-align:end}
-.brand-row{display:flex;align-items:center;justify-content:center;gap:1.5cqw;width:100%;min-height:7.4cqw;margin:0 auto 1cqw;flex:none}
-.logo-frame{position:relative;display:flex;align-items:center;justify-content:center;flex:none;width:8.4cqw;height:8.4cqw;padding:.6cqw;overflow:hidden;border:1px dashed var(--gold);border-radius:.9cqw;background:#ffffff59;pointer-events:none}
-.logo-frame img{display:none;width:100%;height:100%;object-fit:contain;object-position:center}
-.logo-placeholder{font:700 .9cqw/1.3 Arial,Helvetica,sans-serif;letter-spacing:.06em;text-align:center;color:var(--gold-text);user-select:none}
-.logo-frame.has-logo{border-color:transparent;background:none}
-.logo-frame.has-logo .logo-placeholder{display:none}
-.logo-frame.has-logo img{display:block}
-.school{max-width:78%;margin:.2cqw 0 .3cqw;font:700 2.5cqw/1.2 var(--serif);text-transform:uppercase;letter-spacing:.08em;overflow-wrap:anywhere}
-.address{margin:.4cqw 0 0;font-size:1.15cqw;line-height:1.5}
-.rule{width:65%;margin:1.6cqw auto;border-top:2px solid var(--gold)}
-.cert-heading{margin:.6cqw 0 1cqw;font:700 2.9cqw/1.2 var(--serif);color:var(--gold-text);text-transform:uppercase;letter-spacing:.06em}
-.subtitle{margin:0 0 1cqw;font:italic 1.3cqw/1.4 var(--serif)}
-.student{max-width:90%;margin:0 0 1.8cqw;padding:.4cqw 2.7cqw .8cqw;border-bottom:2px solid var(--gold);font:700 3.2cqw var(--serif);overflow-wrap:anywhere}
-.statement{max-width:90%;margin:0 auto 2.4cqw;font:1.2cqw/1.7 var(--serif)}
-.details{display:grid;grid-template-columns:1fr 1fr;gap:1cqw 2.3cqw;width:75%;margin:0 auto 2cqw;font-size:1.1cqw;line-height:1.5;text-align:start}
-.details div{display:flex;flex-wrap:wrap;gap:.35em}
-.details dt{font-weight:700}
-.details dd{margin:0}
-.signatures{display:flex;justify-content:space-evenly;align-items:flex-end;width:72%;margin:auto auto 0;padding-top:2cqw;flex:none}
-.sig{width:42%;font-size:1.1cqw}
-.sigline{min-height:1.6em;padding-top:.5cqw;border-top:1px solid var(--ink)}
-.footer{align-self:center;width:78%;margin:1.4cqw 0 0;font-size:.95cqw;opacity:.85}
-
+.certificate[data-ink="light"]{--ink:#fffaf0;--gold:#e0b866;--gold-text:#f0cf85;--name-ink:#fff3cf}
+.g-line{stroke:var(--gold)}
+.g-fill{fill:var(--gold)}
 .watermark{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none;mix-blend-mode:multiply}
 .watermark[hidden]{display:none}
 .certificate[data-ink="light"] .watermark{mix-blend-mode:normal}
+.frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 
-.seal{position:absolute;right:5.5%;bottom:7.5%;z-index:10;width:8cqw;aspect-ratio:1;transform:rotate(-7deg);filter:drop-shadow(0 3px 2px #3d090a66)}
-.rosette{position:relative;isolation:isolate;display:block;width:100%;height:100%;
-  clip-path:polygon(50.00% 0.00%,55.74% 6.38%,62.94% 1.70%,66.84% 9.35%,75.00% 6.70%,76.79% 15.09%,85.36% 14.64%,84.91% 23.21%,93.30% 25.00%,90.65% 33.16%,98.30% 37.06%,93.62% 44.26%,100.00% 50.00%,93.62% 55.74%,98.30% 62.94%,90.65% 66.84%,93.30% 75.00%,84.91% 76.79%,85.36% 85.36%,76.79% 84.91%,75.00% 93.30%,66.84% 90.65%,62.94% 98.30%,55.74% 93.62%,50.00% 100.00%,44.26% 93.62%,37.06% 98.30%,33.16% 90.65%,25.00% 93.30%,23.21% 84.91%,14.64% 85.36%,15.09% 76.79%,6.70% 75.00%,9.35% 66.84%,1.70% 62.94%,6.38% 55.74%,0.00% 50.00%,6.38% 44.26%,1.70% 37.06%,9.35% 33.16%,6.70% 25.00%,15.09% 23.21%,14.64% 14.64%,23.21% 15.09%,25.00% 6.70%,33.16% 9.35%,37.06% 1.70%,44.26% 6.38%);
-  background:repeating-conic-gradient(from -7deg,#79070d 0deg,#e54b4d 3deg,#ffb0a0 5deg,#b81720 8deg,#76060d 11deg,#e84b4c 14deg,#ffb9a8 16deg,#a90e18 19deg);
-  -webkit-print-color-adjust:exact;print-color-adjust:exact}
-.rosette::before{content:"";position:absolute;z-index:1;inset:6%;border-radius:50%;background:radial-gradient(ellipse at 30% 20%,#ffd0c5 0%,#f47770 13%,#c51d27 34%,#8b0811 58%,#e13d40 76%,#6d050b 100%);border:1px solid #ffb2a6;box-shadow:inset 0 2px 3px #ffe0d688,inset 0 -5px 7px #4e000099,0 0 0 2px #8a0911,0 0 0 3px #f58a7d}
-.rosette::after{content:"";position:absolute;z-index:2;inset:18%;border-radius:50%;background:radial-gradient(ellipse at 32% 22%,#f77b73 0%,#c51e29 35%,#850811 72%,#b91520 100%);border:2px solid #f8a095;box-shadow:inset 0 2px 3px #ffd4c466,inset 0 -3px 5px #4e000088,0 0 0 1px #74050b}
+.cert-inner{position:absolute;inset:5.2cqw 9.4cqw 6cqw;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
+.crest{position:relative;flex:none;width:9.4cqw;height:9.4cqw;margin-block-end:.4cqw}
+.crest .crest-art,.crest img{display:block;width:100%;height:100%}
+.crest img{display:none;object-fit:contain;object-position:center;mix-blend-mode:multiply}
+.crest.has-logo img{display:block}
+.crest.has-logo .crest-art{display:none}
+.school{max-width:100%;margin:0;font:700 2.55cqw/1.2 "Cinzel","Trajan Pro",Georgia,serif;color:var(--gold-text);text-transform:uppercase;letter-spacing:.09em;overflow-wrap:anywhere}
+.address{max-width:92%;margin:.7cqw 0 0;font-size:1.25cqw;line-height:1.4;font-variant-caps:small-caps;letter-spacing:.14em;overflow-wrap:anywhere}
+.title-row{display:flex;align-items:center;justify-content:center;gap:1.6cqw;margin-block:0 .9cqw;width:100%}
+.gap{flex:1 1 0;min-height:var(--gap-min);max-height:var(--gap-max)}
+.gap-a{--gap-min:.7cqw;--gap-max:2.2cqw}
+.gap-b{--gap-min:.2cqw;--gap-max:1cqw}
+.gap-c{--gap-min:.6cqw;--gap-max:1.8cqw}
+.gap-d{--gap-min:.5cqw;--gap-max:1.5cqw}
+.gap-e{flex-grow:2;--gap-min:1.2cqw;--gap-max:none}
+.orn{flex:none;width:8cqw;height:1.4cqw}
+.orn.flip{transform:scaleX(-1)}
+.cert-heading{margin:0;font:600 2.55cqw/1.2 "Cinzel","Trajan Pro",Georgia,serif;color:var(--gold-text);text-transform:uppercase;letter-spacing:.09em;white-space:nowrap}
+.certify{margin:0;font:italic 400 1.65cqw/1.3 "EB Garamond",Garamond,Georgia,serif}
+.student{position:relative;max-width:100%;margin:.2cqw 0 0;padding:.2cqw 1cqw 1cqw;font:400 var(--name-size,6.4cqw)/1.3 "Great Vibes","Brush Script MT",cursive;color:var(--name-ink);white-space:nowrap}
+.student::after{content:"";position:absolute;inset-inline:12%;bottom:.2cqw;border-bottom:1px solid var(--gold)}
+.statement{max-width:76cqw;margin:0 auto;font:400 1.6cqw/1.55 "EB Garamond",Garamond,Georgia,serif}
+.details{display:grid;grid-auto-flow:column;grid-template-rows:repeat(2,auto);gap:.9cqw 6cqw;width:70%;margin:0 auto;font-size:1.45cqw;line-height:1.35;text-align:start}
+.details div{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5em}
+.details dt{font-weight:500;font-variant-caps:small-caps;letter-spacing:.08em}
+.details dd{margin:0}
+.note{max-width:84%;margin:0;font:italic 400 1.25cqw/1.4 "EB Garamond",Garamond,Georgia,serif;opacity:.9}
+.signatures{display:flex;justify-content:space-between;align-items:flex-end;width:64%;flex:none}
+.sig{width:42%}
+.sigline{padding-top:.5cqw;border-top:1px solid var(--ink);font:600 .95cqw/1.3 "Cinzel","Trajan Pro",Georgia,serif;letter-spacing:.14em;text-transform:uppercase;min-height:1.4em}
+.bottom{position:relative;display:flex;align-items:center;justify-content:center;width:100%;min-height:2.4cqw;margin-block-start:.9cqw;flex:none}
+.serial{position:absolute;inset-inline-start:0;bottom:0;font-size:.9cqw;line-height:1.2;font-variant-caps:all-small-caps;letter-spacing:.14em;opacity:.85;white-space:nowrap}
+.footer{max-width:56cqw;margin:0;font:500 .92cqw/1.45 "EB Garamond",Garamond,Georgia,serif;text-transform:uppercase;letter-spacing:.16em}
+.seal{position:absolute;z-index:2;left:86.2%;top:81%;width:10.8cqw;height:10.8cqw;transform:rotate(-6deg);filter:drop-shadow(0 .25cqw .3cqw #3d090a66)}
 
 @media (min-width:48rem){
   .app{padding:1.375rem}
@@ -159,11 +164,23 @@ dialog p{margin:0}
   .app{display:block;max-width:none;margin:0;padding:0}
   .preview-wrap,.preview-scroll{margin:0;padding:0;overflow:visible}
   .certificate{width:297mm;height:calc(210mm - 1px);max-width:none;min-width:0;margin:0;box-shadow:none;break-after:avoid;break-inside:avoid}
-  .logo-frame:not(.has-logo){display:none}
 }
 </style>
 </head>
 <body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3dc8f"/><stop offset=".45" stop-color="#c9a24a"/><stop offset="1" stop-color="#8a6420"/></linearGradient>
+    <linearGradient id="gPage" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf0c9"/><stop offset="1" stop-color="#e8cf86"/></linearGradient>
+    <radialGradient id="gWax" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="#e2474d"/><stop offset=".45" stop-color="#b8161d"/><stop offset="1" stop-color="#6e070d"/></radialGradient>
+    <radialGradient id="gWaxInner" cx=".4" cy=".34" r=".75"><stop offset="0" stop-color="#d63238"/><stop offset=".6" stop-color="#a3121a"/><stop offset="1" stop-color="#7c0b11"/></radialGradient>
+    <symbol id="crestGold" viewBox="10 20 180 180"><path d="M109.74 175.32A70 70 0 0 0 132.86 44.19" fill="none" stroke="#7a5a18" stroke-width="1.8" stroke-linecap="round"/><path d="M90.26 175.32A70 70 0 0 1 67.14 44.19" fill="none" stroke="#7a5a18" stroke-width="1.8" stroke-linecap="round"/><g fill="url(#gGold)"><path transform="translate(116.4 171.79) rotate(106) scale(1)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(117.47 176.06) rotate(46) scale(1)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(131.41 166.08) rotate(92.4) scale(0.97)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(133.45 169.98) rotate(32.4) scale(0.97)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(144.66 157.01) rotate(78.8) scale(0.94)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(147.56 160.32) rotate(18.8) scale(0.94)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(155.4 145.08) rotate(65.2) scale(0.92)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(159 147.62) rotate(5.2) scale(0.92)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(163.04 130.96) rotate(51.6) scale(0.89)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(167.13 132.58) rotate(-8.4) scale(0.89)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(167.14 115.44) rotate(38) scale(0.86)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(171.5 116.05) rotate(-22) scale(0.86)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(167.48 99.38) rotate(24.4) scale(0.83)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(171.86 98.95) rotate(-35.6) scale(0.83)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(164.03 83.7) rotate(10.8) scale(0.8)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(168.18 82.26) rotate(-49.2) scale(0.8)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(156.99 69.27) rotate(-2.8) scale(0.78)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(160.69 66.89) rotate(-62.8) scale(0.78)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(146.76 56.9) rotate(-16.4) scale(0.75)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(149.79 53.71) rotate(-76.4) scale(0.75)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(133.9 47.28) rotate(-30) scale(0.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(136.1 43.47) rotate(-90) scale(0.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(83.6 171.79) rotate(-106) scale(1)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(82.53 176.06) rotate(-46) scale(1)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(68.59 166.08) rotate(-92.4) scale(0.97)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(66.55 169.98) rotate(-32.4) scale(0.97)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(55.34 157.01) rotate(-78.8) scale(0.94)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(52.44 160.32) rotate(-18.8) scale(0.94)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(44.6 145.08) rotate(-65.2) scale(0.92)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(41 147.62) rotate(-5.2) scale(0.92)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(36.96 130.96) rotate(-51.6) scale(0.89)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(32.87 132.58) rotate(8.4) scale(0.89)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(32.86 115.44) rotate(-38) scale(0.86)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(28.5 116.05) rotate(22) scale(0.86)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(32.52 99.38) rotate(-24.4) scale(0.83)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(28.14 98.95) rotate(35.6) scale(0.83)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(35.97 83.7) rotate(-10.8) scale(0.8)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(31.82 82.26) rotate(49.2) scale(0.8)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(43.01 69.27) rotate(2.8) scale(0.78)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(39.31 66.89) rotate(62.8) scale(0.78)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(53.24 56.9) rotate(16.4) scale(0.75)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(50.21 53.71) rotate(76.4) scale(0.75)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(66.1 47.28) rotate(30) scale(0.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(63.9 43.47) rotate(90) scale(0.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(126.22 41.1) rotate(-68) scale(.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(73.78 41.1) rotate(68) scale(.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/></g><path d="M100 176C93 181 84 182 76 192L86 190L87 197C93 190 98 186 100 182ZM100 176C107 181 116 182 124 192L114 190L113 197C107 190 102 186 100 182Z" fill="url(#gGold)"/><circle cx="100" cy="178" r="4.2" fill="url(#gGold)"/><path d="M114.8 95.55L144.99 88.44L114.52 94.22ZM113.93 92.43L131.97 83.76L113.46 91.38ZM112.52 89.74L137.21 70.96L111.72 88.64ZM110.46 87.25L123.42 71.99L109.6 86.48ZM108.08 85.36L123 58.16L106.9 84.68ZM105.18 83.92L110.82 64.71L104.08 83.57ZM102.24 83.17L104.81 52.25L100.89 83.03ZM99.01 83.03L96.34 63.19L97.86 83.15ZM96.02 83.54L85.79 54.25L94.72 83.96ZM93 84.73L82.5 67.69L92.01 85.31ZM90.48 86.41L69.22 63.82L89.47 87.32ZM88.21 88.72L71.68 77.43L87.54 89.66ZM86.59 91.28L57.98 79.29L86.03 92.53ZM85.46 94.32L65.76 90.72L85.22 95.45Z" fill="url(#gGold)"/><circle cx="100" cy="98" r="11.5" fill="url(#gGold)"/><path d="M100 120C86 110 68 109.5 52 115.5L52 147.5C68 141.5 86 142 100 152Z" fill="url(#gPage)" stroke="#7a5a18" stroke-width="1.6" stroke-linejoin="round"/><path d="M100 120C114 110 132 109.5 148 115.5L148 147.5C132 141.5 114 142 100 152Z" fill="url(#gPage)" stroke="#7a5a18" stroke-width="1.6" stroke-linejoin="round"/><path d="M58 123.5C70 119.0 86 119.9 95 125.3M142 123.5C130 119.0 114 119.9 105 125.3M58 130C70 125.5 86 126.4 95 131.8M142 130C130 125.5 114 126.4 105 131.8M58 136.5C70 132.0 86 132.9 95 138.3M142 136.5C130 132.0 114 132.9 105 138.3" fill="none" stroke="#9a7a2e" stroke-width="1.1" stroke-linecap="round"/><path d="M100 120V152" stroke="#7a5a18" stroke-width="1.6"/><path d="M50 149.5C67 143.5 86 144 100 154C114 144 133 143.5 150 149.5" fill="none" stroke="url(#gGold)" stroke-width="3.2" stroke-linecap="round"/></symbol>
+    <symbol id="crestMono" viewBox="10 20 180 180"><path d="M109.74 175.32A70 70 0 0 0 132.86 44.19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M90.26 175.32A70 70 0 0 1 67.14 44.19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><g fill="currentColor"><path transform="translate(116.4 171.79) rotate(106) scale(1)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(117.47 176.06) rotate(46) scale(1)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(131.41 166.08) rotate(92.4) scale(0.97)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(133.45 169.98) rotate(32.4) scale(0.97)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(144.66 157.01) rotate(78.8) scale(0.94)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(147.56 160.32) rotate(18.8) scale(0.94)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(155.4 145.08) rotate(65.2) scale(0.92)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(159 147.62) rotate(5.2) scale(0.92)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(163.04 130.96) rotate(51.6) scale(0.89)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(167.13 132.58) rotate(-8.4) scale(0.89)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(167.14 115.44) rotate(38) scale(0.86)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(171.5 116.05) rotate(-22) scale(0.86)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(167.48 99.38) rotate(24.4) scale(0.83)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(171.86 98.95) rotate(-35.6) scale(0.83)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(164.03 83.7) rotate(10.8) scale(0.8)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(168.18 82.26) rotate(-49.2) scale(0.8)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(156.99 69.27) rotate(-2.8) scale(0.78)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(160.69 66.89) rotate(-62.8) scale(0.78)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(146.76 56.9) rotate(-16.4) scale(0.75)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(149.79 53.71) rotate(-76.4) scale(0.75)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(133.9 47.28) rotate(-30) scale(0.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(136.1 43.47) rotate(-90) scale(0.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(83.6 171.79) rotate(-106) scale(1)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(82.53 176.06) rotate(-46) scale(1)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(68.59 166.08) rotate(-92.4) scale(0.97)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(66.55 169.98) rotate(-32.4) scale(0.97)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(55.34 157.01) rotate(-78.8) scale(0.94)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(52.44 160.32) rotate(-18.8) scale(0.94)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(44.6 145.08) rotate(-65.2) scale(0.92)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(41 147.62) rotate(-5.2) scale(0.92)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(36.96 130.96) rotate(-51.6) scale(0.89)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(32.87 132.58) rotate(8.4) scale(0.89)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(32.86 115.44) rotate(-38) scale(0.86)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(28.5 116.05) rotate(22) scale(0.86)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(32.52 99.38) rotate(-24.4) scale(0.83)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(28.14 98.95) rotate(35.6) scale(0.83)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(35.97 83.7) rotate(-10.8) scale(0.8)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(31.82 82.26) rotate(49.2) scale(0.8)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(43.01 69.27) rotate(2.8) scale(0.78)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(39.31 66.89) rotate(62.8) scale(0.78)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(53.24 56.9) rotate(16.4) scale(0.75)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(50.21 53.71) rotate(76.4) scale(0.75)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(66.1 47.28) rotate(30) scale(0.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(63.9 43.47) rotate(90) scale(0.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(126.22 41.1) rotate(-68) scale(.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/><path transform="translate(73.78 41.1) rotate(68) scale(.72)" d="M0 0C4-4 4.8-12.6 0-19C-4.8-12.6-4-4 0 0Z"/></g><path d="M100 176C93 181 84 182 76 192L86 190L87 197C93 190 98 186 100 182ZM100 176C107 181 116 182 124 192L114 190L113 197C107 190 102 186 100 182Z" fill="currentColor"/><circle cx="100" cy="178" r="4.2" fill="currentColor"/><path d="M114.8 95.55L144.99 88.44L114.52 94.22ZM113.93 92.43L131.97 83.76L113.46 91.38ZM112.52 89.74L137.21 70.96L111.72 88.64ZM110.46 87.25L123.42 71.99L109.6 86.48ZM108.08 85.36L123 58.16L106.9 84.68ZM105.18 83.92L110.82 64.71L104.08 83.57ZM102.24 83.17L104.81 52.25L100.89 83.03ZM99.01 83.03L96.34 63.19L97.86 83.15ZM96.02 83.54L85.79 54.25L94.72 83.96ZM93 84.73L82.5 67.69L92.01 85.31ZM90.48 86.41L69.22 63.82L89.47 87.32ZM88.21 88.72L71.68 77.43L87.54 89.66ZM86.59 91.28L57.98 79.29L86.03 92.53ZM85.46 94.32L65.76 90.72L85.22 95.45Z" fill="currentColor"/><circle cx="100" cy="98" r="11.5" fill="currentColor"/><path d="M100 120C86 110 68 109.5 52 115.5L52 147.5C68 141.5 86 142 100 152ZM100 120C114 110 132 109.5 148 115.5L148 147.5C132 141.5 114 142 100 152Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M60 125C71 121 86 121.6 94 126.6M140 125C129 121 114 121.6 106 126.6M60 132C71 128 86 128.6 94 133.6M140 132C129 128 114 128.6 106 133.6M60 139C71 135 86 135.6 94 140.6M140 139C129 135 114 135.6 106 140.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M100 120V152" stroke="currentColor" stroke-width="2.6"/><path d="M50 150C67 144 86 144.5 100 154.5C114 144.5 133 144 150 150" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></symbol>
+    <symbol id="orn" viewBox="0 0 80 14"><circle class="g-fill" cx="3" cy="7" r="1.8"/><path class="g-fill" d="M12 7L17 2L22 7L17 12Z"/><path class="g-line" d="M26 7H80" fill="none" stroke-width="1"/><path class="g-line" d="M26 4.2H64M26 9.8H64" fill="none" stroke-width=".4"/></symbol>
+    <g id="corner"><path class="g-fill" d="M13.8 9.68L22.2 9.84A12.6 12.6 0 0 1 22.05 11.55L13.75 10.25A4.2 4.2 0 0 0 13.8 9.68ZM13.52 11.11L21.36 14.14A12.6 12.6 0 0 1 20.63 15.69L13.28 11.63A4.2 4.2 0 0 0 13.52 11.11ZM12.76 12.36L19.09 17.88A12.6 12.6 0 0 1 17.88 19.09L12.36 12.76A4.2 4.2 0 0 0 12.76 12.36ZM11.63 13.28L15.69 20.63A12.6 12.6 0 0 1 14.14 21.36L11.11 13.52A4.2 4.2 0 0 0 11.63 13.28ZM10.25 13.75L11.55 22.05A12.6 12.6 0 0 1 9.84 22.2L9.68 13.8A4.2 4.2 0 0 0 10.25 13.75Z"/><path class="g-fill" d="M9.6 9.6L13.0 9.6A3.4 3.4 0 0 1 9.6 13.0Z"/><g class="g-fill"><circle cx="24" cy="9.6" r=".95"/><circle cx="23.78" cy="12.1" r=".95"/><circle cx="23.13" cy="14.53" r=".95"/><circle cx="22.07" cy="16.8" r=".95"/><circle cx="20.63" cy="18.86" r=".95"/><circle cx="18.86" cy="20.63" r=".95"/><circle cx="16.8" cy="22.07" r=".95"/><circle cx="14.53" cy="23.13" r=".95"/><circle cx="12.1" cy="23.78" r=".95"/><circle cx="9.6" cy="24" r=".95"/></g><path d="M26.200000000000003 9.6A16.6 16.6 0 0 1 9.6 26.200000000000003" fill="none" class="g-line" stroke-width=".45"/><path d="M22.5 9.6A12.9 12.9 0 0 1 9.6 22.5" fill="none" class="g-line" stroke-width=".3"/><g class="g-line" fill="none" stroke-width=".6" stroke-linecap="round"><path d="M27.6 13.2C33 13.2 34.4 17.2 39.6 17.2S47 13.2 52 13.2"/><path d="M39.6 17.2C39.6 20.2 36.6 20.8 35.8 19.2C35.2 17.8 37 17.2 37.6 18.2"/><path d="M52 13.2C54.4 13.2 55 10.6 53.2 10.2C52 10 51.6 11.6 52.6 11.8"/></g><g class="g-fill"><path d="M33.6 12.9C34.4 10.4 36.6 9.8 38 10.6C37.4 12.6 35.6 13.4 33.6 12.9Z"/><path d="M44.6 13.6C45.4 11.2 47.6 10.6 49 11.4C48.4 13.4 46.6 14.2 44.6 13.6Z"/><circle cx="57.4" cy="13.2" r=".7"/><circle cx="60" cy="13.2" r=".45"/></g><g transform="matrix(0 1 1 0 0 0)"><g class="g-line" fill="none" stroke-width=".6" stroke-linecap="round"><path d="M27.6 13.2C33 13.2 34.4 17.2 39.6 17.2S47 13.2 52 13.2"/><path d="M39.6 17.2C39.6 20.2 36.6 20.8 35.8 19.2C35.2 17.8 37 17.2 37.6 18.2"/><path d="M52 13.2C54.4 13.2 55 10.6 53.2 10.2C52 10 51.6 11.6 52.6 11.8"/></g><g class="g-fill"><path d="M33.6 12.9C34.4 10.4 36.6 9.8 38 10.6C37.4 12.6 35.6 13.4 33.6 12.9Z"/><path d="M44.6 13.6C45.4 11.2 47.6 10.6 49 11.4C48.4 13.4 46.6 14.2 44.6 13.6Z"/><circle cx="57.4" cy="13.2" r=".7"/><circle cx="60" cy="13.2" r=".45"/></g></g></g>
+  </defs>
+</svg>
+
 <header class="site-header no-print">
   <h1>First School Leaving Certificate Generator</h1>
   <p>Create, customise and print certificates for any school.</p>
@@ -182,13 +199,13 @@ dialog p{margin:0}
       </div>
       <div class="field">
         <label for="schoolContact">School contact (optional)</label>
-        <input id="schoolContact" type="text" maxlength="80" placeholder="Phone number, email or website">
+        <input id="schoolContact" type="text" maxlength="60" placeholder="Phone number, email or website">
       </div>
       <div class="field">
-        <label for="logoUpload">School logo (optional)</label>
+        <label for="logoUpload">School crest or logo (optional)</label>
         <input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
-        <p class="hint">PNG, JPG, WebP or SVG, up to 2 MB. The logo is fitted inside a square frame, never stretched or allowed to spill out.</p>
-        <label class="check" for="watermarkToggle"><input id="watermarkToggle" type="checkbox" checked> Show the logo as a faint watermark pattern</label>
+        <p class="hint">A default gold crest is used. Upload your own PNG, JPG, WebP or SVG (up to 2 MB) to replace it at the top and in the watermark.</p>
+        <label class="check" for="watermarkToggle"><input id="watermarkToggle" type="checkbox" checked> Show the crest as a faint watermark pattern</label>
         <p class="notice" id="logoNotice" role="status" hidden>
           <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M12 3 2 21h20L12 3ZM13 17h-2v-2h2v2ZM13 13h-2V9h2v4Z"/></svg>
           <span></span>
@@ -221,9 +238,15 @@ dialog p{margin:0}
             <input id="completion" type="date" required min="1950-01-01">
           </div>
         </div>
-        <div class="field">
-          <label for="serial">Certificate number</label>
-          <input id="serial" type="text" required maxlength="30">
+        <div class="two">
+          <div class="field">
+            <label for="serial">Certificate number</label>
+            <input id="serial" type="text" required maxlength="30">
+          </div>
+          <div class="field">
+            <label for="issued">Date issued</label>
+            <input id="issued" type="date" required min="1950-01-01">
+          </div>
         </div>
       </div>
 
@@ -245,6 +268,10 @@ dialog p{margin:0}
           <label for="wording">Certificate statement</label>
           <textarea id="wording" required maxlength="400"></textarea>
         </div>
+        <div class="field">
+          <label for="note">Note below the details (optional)</label>
+          <input id="note" type="text" maxlength="140">
+        </div>
         <div class="two">
           <div class="field">
             <label for="sign1">First signatory title</label>
@@ -254,6 +281,10 @@ dialog p{margin:0}
             <label for="sign2">Second signatory title</label>
             <input id="sign2" type="text" maxlength="40">
           </div>
+        </div>
+        <div class="field">
+          <label for="validatingBody">Validating body (optional)</label>
+          <input id="validatingBody" type="text" maxlength="70" placeholder="Name of the body that validates this certificate">
         </div>
       </div>
 
@@ -276,46 +307,79 @@ dialog p{margin:0}
     </p>
     <div class="preview-scroll" tabindex="0" role="region" aria-label="Certificate preview, scrolls sideways on small screens">
       <article class="certificate" id="certificate" data-ink="dark" aria-label="Certificate preview">
-        <svg class="watermark" id="watermark" viewBox="0 0 297 210" preserveAspectRatio="xMidYMid slice" aria-hidden="true" hidden>
+        <svg class="watermark" id="watermark" viewBox="0 0 297 210" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
           <defs>
-            <pattern id="wmPattern" width="32" height="32" patternUnits="userSpaceOnUse">
-              <image x="2" y="2" width="12" height="12" opacity="0.1" preserveAspectRatio="xMidYMid meet"/>
-              <image x="18" y="18" width="12" height="12" opacity="0.1" preserveAspectRatio="xMidYMid meet"/>
+            <pattern id="wmPattern" width="34" height="34" patternUnits="userSpaceOnUse">
+              <g id="wmDefault">
+                <use href="#crestGold" x="3" y="3" width="13" height="13"/>
+                <use href="#crestGold" x="20" y="20" width="13" height="13"/>
+              </g>
+              <g id="wmCustom">
+                <image x="3" y="3" width="13" height="13" preserveAspectRatio="xMidYMid meet"/>
+                <image x="20" y="20" width="13" height="13" preserveAspectRatio="xMidYMid meet"/>
+              </g>
             </pattern>
           </defs>
-          <rect width="297" height="210" fill="url(#wmPattern)"/>
+          <rect width="297" height="210" fill="url(#wmPattern)" opacity="0.16"/>
+        </svg>
+        <svg class="frame" viewBox="0 0 297 210" aria-hidden="true">
+          <g class="g-line" fill="none">
+            <rect x="5" y="5" width="287" height="200" stroke-width="1.6"/>
+            <rect x="7.2" y="7.2" width="282.6" height="195.6" stroke-width=".35"/>
+            <rect x="9.6" y="9.6" width="277.8" height="190.8" stroke-width=".9"/>
+            <rect x="11.2" y="11.2" width="274.6" height="187.6" stroke-width=".3"/>
+          </g>
+          <use href="#corner"/>
+          <use href="#corner" transform="translate(297 0) scale(-1 1)"/>
+          <use href="#corner" transform="translate(0 210) scale(1 -1)"/>
+          <use href="#corner" transform="translate(297 210) scale(-1 -1)"/>
         </svg>
         <div class="cert-inner" id="certInner">
-          <div class="cert-meta">
-            <span class="serial" id="previewSerial"></span>
-            <span class="contact" id="previewContact"></span>
+          <div class="crest" id="logoFrame">
+            <svg class="crest-art" aria-hidden="true"><use href="#crestGold"/></svg>
+            <img id="previewLogo" alt="School crest" width="104" height="104" decoding="async">
           </div>
-          <div class="brand-row">
-            <p class="school" id="previewSchool"></p>
-            <div class="logo-frame" id="logoFrame">
-              <span class="logo-placeholder">SCHOOL LOGO</span>
-              <img id="previewLogo" alt="School logo" width="88" height="88" decoding="async">
-            </div>
-          </div>
+          <p class="school" id="previewSchool"></p>
           <p class="address" id="previewAddress"></p>
-          <div class="rule"></div>
-          <h3 class="cert-heading">First School Leaving Certificate</h3>
-          <p class="subtitle">This is to certify that</p>
-          <p class="student" id="previewStudent"></p>
+          <div class="gap gap-a" aria-hidden="true"></div>
+          <div class="title-row">
+            <svg class="orn" aria-hidden="true"><use href="#orn"/></svg>
+            <h3 class="cert-heading">First School Leaving Certificate</h3>
+            <svg class="orn flip" aria-hidden="true"><use href="#orn"/></svg>
+          </div>
+          <p class="certify">This is to certify that</p>
+          <p class="student" id="previewStudent" data-fit></p>
+          <div class="gap gap-b" aria-hidden="true"></div>
           <p class="statement" id="previewWording"></p>
+          <div class="gap gap-c" aria-hidden="true"></div>
           <dl class="details">
             <div><dt>Date of Birth:</dt><dd id="previewDob"></dd></div>
             <div><dt>Admission Number:</dt><dd id="previewAdmission"></dd></div>
             <div><dt>Academic Session:</dt><dd id="previewSession"></dd></div>
             <div><dt>Date of Completion:</dt><dd id="previewCompletion"></dd></div>
           </dl>
-          <div class="seal" role="img" aria-label="Red embossed decorative rosette seal"><span class="rosette"></span></div>
+          <div class="gap gap-d" aria-hidden="true"></div>
+          <p class="note" id="previewNote"></p>
+          <div class="gap gap-e" aria-hidden="true"></div>
           <div class="signatures">
             <div class="sig"><div class="sigline" id="previewSign1"></div></div>
             <div class="sig"><div class="sigline" id="previewSign2"></div></div>
           </div>
-          <p class="footer" id="previewFooter"></p>
+          <div class="bottom">
+            <p class="serial" id="previewSerial"></p>
+            <p class="footer" id="previewFooter"></p>
+          </div>
         </div>
+        <svg class="seal" viewBox="0 0 100 100" role="img" aria-label="Red wax seal embossed with the school crest">
+          <path d="M97.18 50L98.57 51.91L98.87 53.85L97.98 55.68L96.41 57.35L94.9 58.93L94 60.56L93.68 62.32L93.48 64.13L92.9 65.83L91.78 67.3L90.39 68.62L89.18 69.96L88.35 71.48L87.7 73.1L86.8 74.59L85.34 75.68L83.44 76.36L81.58 76.97L80.3 78.01L79.79 79.79L79.79 82.23L79.77 84.85L79.25 87.1L78.12 88.7L76.59 89.79L74.95 90.72L73.36 91.72L71.75 92.68L69.93 93.22L67.84 93.06L65.61 92.3L63.48 91.5L61.64 91.28L60.07 91.93L58.58 93.15L57.01 94.24L55.28 94.59L53.47 94.1L51.7 93.19L50 92.52L48.33 92.48L46.62 92.95L44.85 93.48L43.08 93.69L41.33 93.59L39.54 93.55L37.6 93.97L35.43 94.85L33.14 95.71L31.01 95.85L29.33 94.83L28.21 92.77L27.44 90.28L26.68 88.06L25.64 86.46L24.32 85.35L22.96 84.31L21.79 83.03L20.85 81.53L19.9 80.1L18.61 79.02L16.9 78.27L15.06 77.54L13.57 76.47L12.74 74.89L12.47 73L12.21 71.16L11.37 69.68L9.7 68.58L7.51 67.6L5.45 66.44L4.08 64.92L3.51 63.11L3.44 61.18L3.42 59.27L3.31 57.39L3.37 55.52L4.02 53.62L5.41 51.75L7.18 50L8.64 48.37L9.15 46.78L8.61 45.1L7.51 43.27L6.63 41.37L6.49 39.55L7.06 37.89L7.89 36.32L8.46 34.68L8.63 32.86L8.66 30.94L8.99 29.11L9.83 27.5L10.96 26.08L11.97 24.59L12.53 22.78L12.76 20.64L13.15 18.52L14.21 16.92L16.15 16.15L18.7 16.14L21.32 16.42L23.53 16.42L25.22 15.89L26.58 14.96L27.93 13.98L29.39 13.19L30.89 12.49L32.25 11.49L33.39 9.91L34.46 7.86L35.67 5.9L37.21 4.66L39.06 4.42L41.02 4.88L42.93 5.35L44.7 5.21L46.41 4.37L48.16 3.26L50 2.52L51.86 2.55L53.68 3.23L55.43 4.1L57.16 4.79L58.89 5.32L60.55 6.04L62.03 7.35L63.24 9.26L64.29 11.27L65.45 12.7L67.01 13.09L69.07 12.58L71.42 11.76L73.7 11.32L75.64 11.63L77.22 12.53L78.67 13.63L80.24 14.59L81.95 15.44L83.54 16.46L84.7 17.93L85.34 19.82L85.74 21.82L86.38 23.57L87.57 24.89L89.21 25.97L90.74 27.19L91.56 28.82L91.43 30.9L90.66 33.16L89.89 35.28L89.67 37.11L90.13 38.68L90.95 40.17L91.69 41.71L92.2 43.32L92.75 44.94L93.74 46.56L95.34 48.22Z" fill="url(#gWax)"/>
+          <path d="M97.18 50L98.57 51.91L98.87 53.85L97.98 55.68L96.41 57.35L94.9 58.93L94 60.56L93.68 62.32L93.48 64.13L92.9 65.83L91.78 67.3L90.39 68.62L89.18 69.96L88.35 71.48L87.7 73.1L86.8 74.59L85.34 75.68L83.44 76.36L81.58 76.97L80.3 78.01L79.79 79.79L79.79 82.23L79.77 84.85L79.25 87.1L78.12 88.7L76.59 89.79L74.95 90.72L73.36 91.72L71.75 92.68L69.93 93.22L67.84 93.06L65.61 92.3L63.48 91.5L61.64 91.28L60.07 91.93L58.58 93.15L57.01 94.24L55.28 94.59L53.47 94.1L51.7 93.19L50 92.52L48.33 92.48L46.62 92.95L44.85 93.48L43.08 93.69L41.33 93.59L39.54 93.55L37.6 93.97L35.43 94.85L33.14 95.71L31.01 95.85L29.33 94.83L28.21 92.77L27.44 90.28L26.68 88.06L25.64 86.46L24.32 85.35L22.96 84.31L21.79 83.03L20.85 81.53L19.9 80.1L18.61 79.02L16.9 78.27L15.06 77.54L13.57 76.47L12.74 74.89L12.47 73L12.21 71.16L11.37 69.68L9.7 68.58L7.51 67.6L5.45 66.44L4.08 64.92L3.51 63.11L3.44 61.18L3.42 59.27L3.31 57.39L3.37 55.52L4.02 53.62L5.41 51.75L7.18 50L8.64 48.37L9.15 46.78L8.61 45.1L7.51 43.27L6.63 41.37L6.49 39.55L7.06 37.89L7.89 36.32L8.46 34.68L8.63 32.86L8.66 30.94L8.99 29.11L9.83 27.5L10.96 26.08L11.97 24.59L12.53 22.78L12.76 20.64L13.15 18.52L14.21 16.92L16.15 16.15L18.7 16.14L21.32 16.42L23.53 16.42L25.22 15.89L26.58 14.96L27.93 13.98L29.39 13.19L30.89 12.49L32.25 11.49L33.39 9.91L34.46 7.86L35.67 5.9L37.21 4.66L39.06 4.42L41.02 4.88L42.93 5.35L44.7 5.21L46.41 4.37L48.16 3.26L50 2.52L51.86 2.55L53.68 3.23L55.43 4.1L57.16 4.79L58.89 5.32L60.55 6.04L62.03 7.35L63.24 9.26L64.29 11.27L65.45 12.7L67.01 13.09L69.07 12.58L71.42 11.76L73.7 11.32L75.64 11.63L77.22 12.53L78.67 13.63L80.24 14.59L81.95 15.44L83.54 16.46L84.7 17.93L85.34 19.82L85.74 21.82L86.38 23.57L87.57 24.89L89.21 25.97L90.74 27.19L91.56 28.82L91.43 30.9L90.66 33.16L89.89 35.28L89.67 37.11L90.13 38.68L90.95 40.17L91.69 41.71L92.2 43.32L92.75 44.94L93.74 46.56L95.34 48.22Z" fill="none" stroke="#4a0408" stroke-opacity=".45" stroke-width="1"/>
+          <circle cx="50" cy="50" r="35" fill="url(#gWaxInner)" stroke="#ee7a7e" stroke-opacity=".75" stroke-width=".9"/>
+          <circle cx="50" cy="50" r="32.4" fill="none" stroke="#4a0408" stroke-opacity=".5" stroke-width=".7"/>
+          <use href="#crestMono" x="26.6" y="27.6" width="48" height="48" style="color:#4f0509"/>
+          <use href="#crestMono" x="24.8" y="25.6" width="48" height="48" style="color:#ff9b93;opacity:.75"/>
+          <use href="#crestMono" x="25.7" y="26.6" width="48" height="48" style="color:#b3171e"/>
+          <ellipse cx="34" cy="28" rx="19" ry="9" fill="#ffffff" opacity=".12" transform="rotate(-32 34 28)"/>
+        </svg>
       </article>
     </div>
   </section>
@@ -347,9 +411,12 @@ const SAMPLE = {
   session: '2025/2026',
   completion: '',
   serial: 'FSLC/2026/001',
+  issued: '',
   wording: "Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.",
+  note: 'This certificate is valid only when signed and sealed. Any alteration or erasure renders it void.',
   sign1: 'Headteacher',
-  sign2: 'Proprietor / Proprietress'
+  sign2: 'Proprietor / Proprietress',
+  validatingBody: ''
 };
 const DEFAULT_PAPER = { bg: '#fff3d8', bg2: '#f4dfad' };
 const PALETTE = [
@@ -365,8 +432,10 @@ const PALETTE = [
 const LOGO_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml']);
 const MAX_LOGO_BYTES = 2 * 1024 * 1024;
 const MIN_DATE = '1950-01-01';
-const DARK_INK = '#172b4d';
+const DARK_INK = '#2a2116';
 const LIGHT_INK = '#fffaf0';
+const NAME_MAX = 6.4;
+const NAME_MIN = 2.8;
 
 const form = $('certForm');
 const certificate = $('certificate');
@@ -404,29 +473,46 @@ function showNotice(id, message) {
 function validateRelations() {
   const dob = $('dob');
   const completion = $('completion');
+  const issued = $('issued');
   const session = $('session');
-  dob.max = todayIso();
+  const today = todayIso();
+  dob.max = today;
   completion.min = dob.value || MIN_DATE;
+  issued.min = completion.value || dob.value || MIN_DATE;
+  issued.max = today;
   const years = /^(\d{4})\/(\d{4})$/.exec(session.value.trim());
   const consecutive = !years || Number(years[2]) === Number(years[1]) + 1;
   session.setCustomValidity(consecutive ? '' : 'The two years must be consecutive, for example 2025/2026.');
 }
 
+function fitName() {
+  const name = $('previewStudent');
+  let size = NAME_MAX;
+  name.style.setProperty('--name-size', `${size}cqw`);
+  while (name.scrollWidth > name.clientWidth + 0.5 && size > NAME_MIN) {
+    size = Math.round((size - 0.2) * 10) / 10;
+    name.style.setProperty('--name-size', `${size}cqw`);
+  }
+}
+
 function checkLayout() {
   const inner = $('certInner');
-  const overflows = inner.scrollHeight > inner.clientHeight + 1 || inner.scrollWidth > inner.clientWidth + 1;
+  const tooWide = [...document.querySelectorAll('[data-fit]')].some(el => el.scrollWidth > el.clientWidth + 1);
+  const overflows = tooWide || inner.scrollHeight > inner.clientHeight + 1 || inner.scrollWidth > inner.clientWidth + 1;
   showNotice('layoutNotice', overflows
-    ? 'The text is too long to fit on the certificate. Shorten the statement, names or address before printing.'
+    ? 'The text is too long to fit on the certificate. Shorten the statement, names, address or note before printing.'
     : '');
   return !overflows;
 }
 
 function syncWatermark() {
   const src = previewLogo.getAttribute('src');
-  const visible = Boolean(src) && logoFrame.classList.contains('has-logo') && watermarkToggle.checked;
-  watermark.toggleAttribute('hidden', !visible);
+  const custom = Boolean(src) && logoFrame.classList.contains('has-logo');
+  watermark.toggleAttribute('hidden', !watermarkToggle.checked);
+  $('wmDefault').style.display = custom ? 'none' : '';
+  $('wmCustom').style.display = custom ? '' : 'none';
   watermark.querySelectorAll('image').forEach(tile => {
-    if (!visible) tile.removeAttribute('href');
+    if (!custom) tile.removeAttribute('href');
     else if (tile.getAttribute('href') !== src) tile.setAttribute('href', src);
   });
 }
@@ -434,21 +520,25 @@ function syncWatermark() {
 function updatePreview() {
   const value = id => $(id).value.trim();
   const setText = (id, text) => { $(id).textContent = text; };
+  const serial = value('serial') || '—';
   setText('previewSchool', value('schoolName') || 'SCHOOL NAME');
-  setText('previewAddress', value('schoolAddress'));
-  setText('previewContact', value('schoolContact'));
-  setText('previewSerial', `Certificate No: ${value('serial') || '—'}`);
-  setText('previewStudent', value('studentName') || "STUDENT'S FULL NAME");
+  setText('previewAddress', [value('schoolAddress'), value('schoolContact')].filter(Boolean).join(' • '));
+  setText('previewStudent', value('studentName') || "Student's Full Name");
   setText('previewWording', value('wording'));
   setText('previewDob', formatDate($('dob').value));
   setText('previewAdmission', value('admission') || '—');
   setText('previewSession', value('session') || '—');
   setText('previewCompletion', formatDate($('completion').value));
+  setText('previewNote', value('note'));
   setText('previewSign1', value('sign1') || ' ');
   setText('previewSign2', value('sign2') || ' ');
-  setText('previewFooter', `Issued by the management of ${value('schoolName') || 'the school'}.`);
+  setText('previewSerial', `Serial: ${serial}`);
+  const footer = [`Certificate No: ${serial}`, `Issued: ${formatDate($('issued').value)}`];
+  if (value('validatingBody')) footer.push(`Validated by ${value('validatingBody')}`);
+  setText('previewFooter', footer.join(' • '));
   validateRelations();
   syncWatermark();
+  fitName();
   checkLayout();
 }
 
@@ -584,9 +674,12 @@ $('customBg').addEventListener('input', event => {
   setPaper(event.target.value, lighten(event.target.value));
 }, { signal });
 
-$('printBtn').addEventListener('click', () => {
+$('printBtn').addEventListener('click', async () => {
   updatePreview();
-  if (!form.reportValidity() || !checkLayout()) return;
+  if (!form.reportValidity()) return;
+  await document.fonts.ready;
+  updatePreview();
+  if (!checkLayout()) return;
   window.print();
 }, { signal });
 
@@ -598,6 +691,8 @@ resetDialog.addEventListener('close', () => {
   if (confirmed) applyDefaults();
 }, { signal });
 
+document.fonts.addEventListener('loadingdone', updatePreview, { signal });
+
 window.addEventListener('pagehide', event => {
   if (event.persisted) return;
   controller.abort();
@@ -606,6 +701,7 @@ window.addEventListener('pagehide', event => {
 
 buildPalette();
 applyDefaults();
+document.fonts.ready.then(updatePreview);
 </script>
 </body>
 </html>
