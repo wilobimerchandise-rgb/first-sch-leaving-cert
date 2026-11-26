@@ -1,128 +1,597 @@
-
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <meta name="description" content="A reusable First School Leaving Certificate generator for schools.">
 <title>First School Leaving Certificate Generator</title>
 <style>
-:root{--ink:#172b4d;--gold:#b08d42;--paper:#fff3d8;--paper2:#f4dfad}
-*{box-sizing:border-box}
-body{margin:0;background:#edf1f6;color:#1d2939;font:15px/1.5 Arial,sans-serif}
-header{padding:22px 4%;background:#142744;color:#fff}header h1{margin:0 0 5px;font-size:clamp(21px,3vw,30px)}header p{margin:0;color:#d6dfed}
-.app{display:grid;grid-template-columns:minmax(280px,370px) minmax(0,1fr);gap:22px;padding:22px;max-width:1500px;margin:auto;align-items:start}
-.panel{background:#fff;border:1px solid #dce3ec;border-radius:12px;padding:18px;box-shadow:0 4px 18px #1427440c}.panel h2{font-size:18px;margin:0 0 15px;color:#142744}
-.field{margin-bottom:12px}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}.field input,.field textarea{width:100%;padding:10px 11px;border:1px solid #cbd5e1;border-radius:7px;font:inherit;background:#fff;color:#172b4d}.field textarea{min-height:75px;resize:vertical}.field input:focus,.field textarea:focus{outline:2px solid #9db7df;border-color:#5077ad}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.section{border-top:1px solid #e5eaf0;padding-top:14px;margin-top:15px}.section h3{font-size:14px;margin:0 0 12px;color:#9a742d;text-transform:uppercase;letter-spacing:.7px}
-.palette{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.swatch{border:2px solid transparent;border-radius:8px;padding:5px;background:#f7f7f7;cursor:pointer;text-align:center;font-size:11px;color:#263449}.swatch span{display:block;height:30px;border-radius:4px;margin-bottom:4px}.swatch[aria-pressed="true"]{border-color:#172b4d;background:#eef3fa}.color-row{display:flex;gap:10px;align-items:center}.color-row input[type=color]{width:48px;height:40px;padding:2px;border:1px solid #cbd5e1;border-radius:6px;background:white}
-.btns{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.btn{border:0;border-radius:7px;padding:11px 15px;background:#172b4d;color:white;font-weight:700;cursor:pointer}.btn.secondary{background:#e8edf4;color:#172b4d}.btn:hover{filter:brightness(1.08)}.hint{font-size:12px;color:#667085;margin:6px 0 0}
-.preview-wrap{min-width:0}.preview-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:0 0 10px}.preview-title h2{font-size:18px;margin:0;color:#142744}.preview-scroll{overflow:auto;padding:8px 2px 18px}
-.certificate{--paper:#fff3d8;--paper2:#f4dfad;--ink:#172b4d;--gold:#b08d42;width:100%;max-width:1050px;min-width:650px;aspect-ratio:297/210;margin:auto;padding:2.4%;background:linear-gradient(135deg,var(--paper),var(--paper2));color:var(--ink);position:relative;box-shadow:0 8px 28px #172b4d22;print-color-adjust:exact;-webkit-print-color-adjust:exact;overflow:hidden}
-.certificate:before{content:"";position:absolute;inset:12px;border:5px double var(--gold);pointer-events:none}.certificate:after{content:"";position:absolute;inset:23px;border:1px solid var(--gold);pointer-events:none}
-.cert-inner{height:100%;border:1px solid var(--gold);padding:2.2% 5% 1.2%;text-align:center;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0;overflow:hidden}
-.cert-meta{width:100%;min-height:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;font-size:clamp(8px,.9vw,12px);line-height:1.25;text-align:left;flex:0 0 auto;margin-bottom:1.1%}.cert-meta .serial{max-width:45%;overflow-wrap:anywhere}.cert-meta .contact{max-width:45%;margin-left:auto;text-align:right;overflow-wrap:anywhere}
-.brand-row{width:100%;display:flex;align-items:center;justify-content:center;gap:16px;flex:0 0 auto;margin:0 auto 2px;min-height:78px}.logo-frame{position:relative;flex:0 0 88px;width:88px;height:88px;border:1px dashed var(--gold);border-radius:9px;background:rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:6px;pointer-events:none}.logo-frame img{display:none;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center}.logo-placeholder{font: bold 9px/1.3 Arial,sans-serif;letter-spacing:.6px;color:#82652e;text-align:center;user-select:none}.logo-frame.has-logo .logo-placeholder{display:none}.logo-frame.has-logo img{display:block}
-.school{font-family:Georgia,serif;font-weight:bold;text-transform:uppercase;letter-spacing:2px;font-size:clamp(18px,2.5vw,30px);margin:2px 0 3px;overflow-wrap:anywhere;max-width:min(78%,850px)}.address{font-size:clamp(9px,1vw,13px);margin:0}.rule{width:65%;border-top:2px solid var(--gold);margin:.65% auto}.cert-heading{font-family:Georgia,serif;color:var(--gold);font-size:clamp(20px,2.8vw,34px);letter-spacing:2px;text-transform:uppercase;margin:.45% 0}.subtitle{font:italic clamp(11px,1.2vw,16px) Georgia,serif;margin:0}.student{font:bold clamp(22px,3vw,37px) Georgia,serif;border-bottom:2px solid var(--gold);padding:2px 28px 4px;margin:.45% 0;overflow-wrap:anywhere;max-width:90%}.statement{font:clamp(10px,1.1vw,14px)/1.4 Georgia,serif;max-width:850px;margin:.55% auto}.details{display:grid;grid-template-columns:1fr 1fr;gap:3px 24px;text-align:left;font-size:clamp(9px,1vw,13px);width:75%;margin:.7% auto .3%}.signatures{display:flex;justify-content:space-evenly;align-items:flex-end;width:72%;margin:auto auto 0;padding-top:1.2%;flex:0 0 auto}.sig{width:42%;font-size:clamp(9px,1vw,13px)}.sigline{border-top:1px solid var(--ink);padding-top:5px}
-/* Metallic red embossed rosette seal with a deliberately blank centre. */
-.foil-seal{position:absolute;right:5.5%;bottom:7.5%;width:82px;height:82px;display:block;z-index:10;isolation:isolate;transform:rotate(-7deg);clip-path:polygon(50.00% 0.00%, 55.74% 6.38%, 62.94% 1.70%, 66.84% 9.35%, 75.00% 6.70%, 76.79% 15.09%, 85.36% 14.64%, 84.91% 23.21%, 93.30% 25.00%, 90.65% 33.16%, 98.30% 37.06%, 93.62% 44.26%, 100.00% 50.00%, 93.62% 55.74%, 98.30% 62.94%, 90.65% 66.84%, 93.30% 75.00%, 84.91% 76.79%, 85.36% 85.36%, 76.79% 84.91%, 75.00% 93.30%, 66.84% 90.65%, 62.94% 98.30%, 55.74% 93.62%, 50.00% 100.00%, 44.26% 93.62%, 37.06% 98.30%, 33.16% 90.65%, 25.00% 93.30%, 23.21% 84.91%, 14.64% 85.36%, 15.09% 76.79%, 6.70% 75.00%, 9.35% 66.84%, 1.70% 62.94%, 6.38% 55.74%, 0.00% 50.00%, 6.38% 44.26%, 1.70% 37.06%, 9.35% 33.16%, 6.70% 25.00%, 15.09% 23.21%, 14.64% 14.64%, 23.21% 15.09%, 25.00% 6.70%, 33.16% 9.35%, 37.06% 1.70%, 44.26% 6.38%);background:repeating-conic-gradient(from -7deg,#79070d 0deg,#e54b4d 3deg,#ffb0a0 5deg,#b81720 8deg,#76060d 11deg,#e84b4c 14deg,#ffb9a8 16deg,#a90e18 19deg);filter:drop-shadow(0 3px 2px #3d090a66);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.foil-seal:before{content:"";position:absolute;z-index:1;inset:5px;border-radius:50%;background:radial-gradient(ellipse at 30% 20%,#ffd0c5 0%,#f47770 13%,#c51d27 34%,#8b0811 58%,#e13d40 76%,#6d050b 100%);border:1px solid #ffb2a6;box-shadow:inset 0 2px 3px #ffe0d688,inset 0 -5px 7px #4e000099,0 0 0 2px #8a0911,0 0 0 3px #f58a7d}
-.foil-seal:after{content:"";position:absolute;z-index:2;inset:15px;border-radius:50%;background:radial-gradient(ellipse at 32% 22%,#f77b73 0%,#c51e29 35%,#850811 72%,#b91520 100%);border:2px solid #f8a095;box-shadow:inset 0 2px 3px #ffd4c466,inset 0 -3px 5px #4e000088,0 0 0 1px #74050b}
-.footer{font-size:clamp(8px,.85vw,11px);margin:1% 0 0;opacity:.8;width:78%;align-self:center}
-@media(max-width:900px){.app{grid-template-columns:1fr;padding:14px}.certificate{min-width:600px}.brand-row{min-height:70px}.logo-frame{flex-basis:76px;width:76px;height:76px}.school{max-width:80%}.foil-seal{width:76px;height:76px;right:4.5%;bottom:7%}}
-@media print{@page{size:A4 landscape;margin:0}body{background:#fff}.no-print,header,.panel,.preview-title{display:none!important}.app{display:block;padding:0;margin:0;max-width:none}.preview-wrap,.preview-scroll{padding:0;margin:0;overflow:visible}.certificate{width:297mm;height:210mm;max-width:none;min-width:0;aspect-ratio:auto;margin:0;box-shadow:none;page-break-after:avoid}.cert-inner{padding:2.2% 5% 1.2%}.cert-meta{margin-bottom:1%}.brand-row{min-height:0;margin-bottom:1px}.logo-frame{width:88px;height:88px;flex-basis:88px}.signatures{width:72%;padding-top:.8%}.foil-seal{width:82px;height:82px;right:5.5%;bottom:7.5%}}
+:root{
+  color-scheme:light dark;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+  --bg:#edf1f6;--surface:#ffffff;--field:#ffffff;--text:#1d2939;--heading:#142744;--muted:#566176;
+  --border:#7b8aa0;--divider:#e5eaf0;
+  --accent:#172b4d;--on-accent:#ffffff;--secondary:#e8edf4;--on-secondary:#172b4d;
+  --danger:#b42318;--on-danger:#ffffff;--focus:#1f5fd0;--section:#7a5a18;
+  --chip-bg:#f4f6f9;--selected:#eaf0fa;--selected-border:#172b4d;
+  --header:#142744;--on-header:#ffffff;--on-header-muted:#d6dfed;
+  --notice-bg:#fff4e5;--notice-border:#b54708;--notice-text:#6a2a0a;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0e1520;--surface:#172033;--field:#0f1828;--text:#e6ecf5;--heading:#f1f5fb;--muted:#a9b5c7;
+    --border:#7e8fa8;--divider:#2c3a52;
+    --accent:#3b6fd4;--on-accent:#ffffff;--secondary:#2a3a56;--on-secondary:#e6ecf5;
+    --danger:#d92d20;--on-danger:#ffffff;--focus:#8fb4ff;--section:#e0b866;
+    --chip-bg:#1f2b42;--selected:#22345a;--selected-border:#8fb4ff;
+    --header:#0a101a;
+    --notice-bg:#3a2410;--notice-border:#f79009;--notice-text:#ffd9b8;
+  }
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.5 var(--font)}
+
+.site-header{padding:1.25rem 1rem;background:var(--header);color:var(--on-header)}
+.site-header h1{margin:0 0 .25rem;font-size:clamp(1.3rem,1rem + 1.5vw,1.9rem)}
+.site-header p{margin:0;color:var(--on-header-muted)}
+
+.app{display:grid;gap:1.25rem;padding:1rem;max-width:94rem;margin-inline:auto;align-items:start}
+.panel{container-type:inline-size;background:var(--surface);border:1px solid var(--divider);border-radius:.75rem;padding:1.125rem;box-shadow:0 4px 18px #1427440c}
+.panel h2{font-size:1.125rem;margin:0 0 1rem;color:var(--heading)}
+.preview-wrap{min-width:0}
+
+.field{margin-block-end:.75rem}
+.field label{display:block;font-weight:700;font-size:.875rem;margin-block-end:.3rem}
+.field :is(input,textarea){width:100%;min-height:2.75rem;padding:.6rem .7rem;border:1px solid var(--border);border-radius:.45rem;font:inherit;background:var(--field);color:var(--text)}
+.field textarea{min-height:6rem;resize:vertical}
+.field :is(input,textarea):focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+.field :is(input,textarea):user-invalid{border:2px solid var(--danger)}
+.field :is(input,textarea):disabled{opacity:.6;cursor:not-allowed}
+.two{display:grid;gap:0 .625rem}
+@container (min-width:20rem){.two{grid-template-columns:1fr 1fr}}
+
+.section{border-top:1px solid var(--divider);padding-top:.875rem;margin-top:1rem}
+.section h3{font-size:.875rem;margin:0 0 .75rem;color:var(--section);text-transform:uppercase;letter-spacing:.05em}
+.hint{font-size:.875rem;color:var(--muted);margin:.375rem 0 0}
+
+.palette{display:grid;grid-template-columns:repeat(auto-fill,minmax(5.5rem,1fr));gap:.5rem}
+.swatch{min-height:2.75rem;padding:.3rem;border:2px solid transparent;border-radius:.5rem;background:var(--chip-bg);color:var(--text);cursor:pointer;text-align:center;font:inherit;font-size:.875rem}
+.swatch .chip{display:block;height:1.9rem;margin-block-end:.25rem;border:1px solid var(--border);border-radius:.3rem;background:linear-gradient(135deg,var(--a),var(--b))}
+.swatch:hover{border-color:var(--border)}
+.swatch:active{transform:translateY(1px)}
+
+.swatch:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.swatch[aria-pressed="true"]{border-color:var(--selected-border);background:var(--selected);font-weight:700}
+.color-row{display:flex;gap:.75rem;align-items:center}
+.field .color-row input[type="color"]{width:3.5rem;padding:.15rem}
+
+.btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.btn{min-height:2.75rem;padding:.6rem 1rem;border:0;border-radius:.45rem;background:var(--accent);color:var(--on-accent);font:inherit;font-weight:700;cursor:pointer}
+.btn:hover{filter:brightness(1.12)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.secondary{background:var(--secondary);color:var(--on-secondary)}
+.btn.danger{background:var(--danger);color:var(--on-danger)}
+@media (prefers-reduced-motion:no-preference){
+  .btn,.swatch{transition:filter .15s ease,transform .15s ease,border-color .15s ease}
+}
+
+.notice{display:flex;gap:.5rem;align-items:flex-start;margin:.5rem 0 0;padding:.6rem .75rem;border:1px solid var(--notice-border);border-radius:.45rem;background:var(--notice-bg);color:var(--notice-text);font-size:.875rem}
+.notice[hidden]{display:none}
+.notice svg{flex:none;margin-top:.1rem}
+
+dialog{max-width:min(26rem,calc(100% - 2rem));padding:1.25rem;border:1px solid var(--border);border-radius:.75rem;background:var(--surface);color:var(--text)}
+dialog::backdrop{background:#0a101a99}
+dialog h2{margin:0 0 .5rem;font-size:1.125rem;color:var(--heading)}
+dialog p{margin:0}
+
+.preview-title{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem;margin:0 0 .5rem}
+.preview-title h2{font-size:1.125rem;margin:0;color:var(--heading)}
+.preview-scroll{overflow-x:auto;padding:.5rem .125rem 1rem}
+.preview-scroll:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+.certificate{
+
+  --paper:#fff3d8;--paper2:#f4dfad;--ink:#172b4d;--gold:#b08d42;--gold-text:#7a5a18;
+  container-type:inline-size;position:relative;overflow:hidden;
+  width:100%;max-width:65.625rem;min-width:37.5rem;aspect-ratio:297/210;margin-inline:auto;padding:2.4%;
+  background:linear-gradient(135deg,var(--paper),var(--paper2));color:var(--ink);
+  font-family:Arial,Helvetica,sans-serif;box-shadow:0 8px 28px #172b4d22;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.certificate[data-ink="light"]{--ink:#fffaf0;--gold:#e0b866;--gold-text:#f0cf85}
+.certificate::before{content:"";position:absolute;inset:12px;border:5px double var(--gold);pointer-events:none}
+.certificate::after{content:"";position:absolute;inset:23px;border:1px solid var(--gold);pointer-events:none}
+.cert-inner{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;padding:2.2% 5% 1.2%;border:1px solid var(--gold);text-align:center;overflow:hidden}
+.cert-meta{display:flex;justify-content:space-between;align-items:flex-start;gap:2cqw;width:100%;min-height:2.3cqw;margin-block-end:1.1%;flex:none;font-size:1cqw;line-height:1.25;text-align:start}
+.cert-meta .serial,.cert-meta .contact{max-width:45%;overflow-wrap:anywhere}
+.cert-meta .contact{margin-inline-start:auto;text-align:end}
+.brand-row{display:flex;align-items:center;justify-content:center;gap:1.5cqw;width:100%;min-height:7.4cqw;margin:0 auto 2px;flex:none}
+.logo-frame{position:relative;display:flex;align-items:center;justify-content:center;flex:none;width:8.4cqw;height:8.4cqw;padding:.6cqw;overflow:hidden;border:1px dashed var(--gold);border-radius:.9cqw;background:#ffffff59;pointer-events:none}
+.logo-frame img{display:none;width:100%;height:100%;object-fit:contain;object-position:center}
+.logo-placeholder{font:700 .9cqw/1.3 Arial,Helvetica,sans-serif;letter-spacing:.06em;text-align:center;color:var(--gold-text);user-select:none}
+.logo-frame.has-logo{border-color:transparent;background:none}
+.logo-frame.has-logo .logo-placeholder{display:none}
+.logo-frame.has-logo img{display:block}
+.school{max-width:78%;margin:.2cqw 0 .3cqw;font:700 2.5cqw/1.2 var(--serif);text-transform:uppercase;letter-spacing:.08em;overflow-wrap:anywhere}
+.address{margin:0;font-size:1.15cqw}
+.rule{width:65%;margin:.65% auto;border-top:2px solid var(--gold)}
+.cert-heading{margin:.45% 0;font:700 2.9cqw/1.2 var(--serif);color:var(--gold-text);text-transform:uppercase;letter-spacing:.06em}
+.subtitle{margin:0;font:italic 1.3cqw var(--serif)}
+.student{max-width:90%;margin:.45% 0;padding:.2cqw 2.7cqw .4cqw;border-bottom:2px solid var(--gold);font:700 3.2cqw var(--serif);overflow-wrap:anywhere}
+.statement{max-width:90%;margin:.55% auto;font:1.2cqw/1.45 var(--serif)}
+.details{display:grid;grid-template-columns:1fr 1fr;gap:.3cqw 2.3cqw;width:75%;margin:.7% auto .3%;font-size:1.1cqw;text-align:start}
+.details div{display:flex;flex-wrap:wrap;gap:.35em}
+.details dt{font-weight:700}
+.details dd{margin:0}
+
+.signatures{display:flex;justify-content:space-evenly;align-items:flex-end;width:72%;margin:auto auto 0;padding-top:1.2%;flex:none}
+.sig{width:42%;font-size:1.1cqw}
+.sigline{min-height:1.6em;padding-top:.5cqw;border-top:1px solid var(--ink)}
+.footer{align-self:center;width:78%;margin:1% 0 0;font-size:.95cqw;opacity:.85}
+
+.seal{position:absolute;right:5.5%;bottom:7.5%;z-index:10;width:8cqw;aspect-ratio:1;transform:rotate(-7deg);filter:drop-shadow(0 3px 2px #3d090a66)}
+.rosette{position:relative;isolation:isolate;display:block;width:100%;height:100%;
+  clip-path:polygon(50.00% 0.00%,55.74% 6.38%,62.94% 1.70%,66.84% 9.35%,75.00% 6.70%,76.79% 15.09%,85.36% 14.64%,84.91% 23.21%,93.30% 25.00%,90.65% 33.16%,98.30% 37.06%,93.62% 44.26%,100.00% 50.00%,93.62% 55.74%,98.30% 62.94%,90.65% 66.84%,93.30% 75.00%,84.91% 76.79%,85.36% 85.36%,76.79% 84.91%,75.00% 93.30%,66.84% 90.65%,62.94% 98.30%,55.74% 93.62%,50.00% 100.00%,44.26% 93.62%,37.06% 98.30%,33.16% 90.65%,25.00% 93.30%,23.21% 84.91%,14.64% 85.36%,15.09% 76.79%,6.70% 75.00%,9.35% 66.84%,1.70% 62.94%,6.38% 55.74%,0.00% 50.00%,6.38% 44.26%,1.70% 37.06%,9.35% 33.16%,6.70% 25.00%,15.09% 23.21%,14.64% 14.64%,23.21% 15.09%,25.00% 6.70%,33.16% 9.35%,37.06% 1.70%,44.26% 6.38%);
+  background:repeating-conic-gradient(from -7deg,#79070d 0deg,#e54b4d 3deg,#ffb0a0 5deg,#b81720 8deg,#76060d 11deg,#e84b4c 14deg,#ffb9a8 16deg,#a90e18 19deg);
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rosette::before{content:"";position:absolute;z-index:1;inset:6%;border-radius:50%;background:radial-gradient(ellipse at 30% 20%,#ffd0c5 0%,#f47770 13%,#c51d27 34%,#8b0811 58%,#e13d40 76%,#6d050b 100%);border:1px solid #ffb2a6;box-shadow:inset 0 2px 3px #ffe0d688,inset 0 -5px 7px #4e000099,0 0 0 2px #8a0911,0 0 0 3px #f58a7d}
+.rosette::after{content:"";position:absolute;z-index:2;inset:18%;border-radius:50%;background:radial-gradient(ellipse at 32% 22%,#f77b73 0%,#c51e29 35%,#850811 72%,#b91520 100%);border:2px solid #f8a095;box-shadow:inset 0 2px 3px #ffd4c466,inset 0 -3px 5px #4e000088,0 0 0 1px #74050b}
+
+@media (min-width:48rem){
+  .app{padding:1.375rem}
+}
+@media (min-width:64rem){
+  .app{grid-template-columns:minmax(18rem,23rem) minmax(0,1fr)}
+}
+
+@page{size:A4 landscape;margin:0}
+@media print{
+  html,body{margin:0;background:#fff}
+  .no-print{display:none}
+  .app{display:block;max-width:none;margin:0;padding:0}
+  .preview-wrap,.preview-scroll{margin:0;padding:0;overflow:visible}
+  .certificate{width:297mm;height:calc(210mm - 1px);max-width:none;min-width:0;margin:0;box-shadow:none;break-after:avoid;break-inside:avoid}
+  .logo-frame:not(.has-logo){display:none}
+}
 </style>
 </head>
 <body>
-<header class="no-print"><h1>First School Leaving Certificate Generator</h1><p>Create, customise and print certificates for any school.</p></header>
+
+<header class="site-header no-print">
+  <h1>First School Leaving Certificate Generator</h1>
+  <p>Create, customise and print certificates for any school.</p>
+</header>
 <main class="app">
-<aside class="panel no-print">
-<h2>Certificate details</h2>
-<div class="field"><label for="schoolName">School name</label><input id="schoolName" value="Golden Light International School"></div>
-<div class="field"><label for="schoolAddress">School address</label><input id="schoolAddress" value="Lagos State, Nigeria"></div>
-<div class="field"><label for="schoolContact">School contact (optional)</label><input id="schoolContact" placeholder="Phone number, email or website"></div>
-<div class="field"><label for="logoUpload">School logo</label><input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"><p class="hint">The logo stays inside a fixed 76 × 76 px frame. Transparent space around a logo is preserved; oversized images are contained, never stretched or allowed to spill out.</p></div>
-<div class="section"><h3>Student details</h3>
-<div class="field"><label for="studentName">Student's full name</label><input id="studentName" value="Chisom Example"></div>
-<div class="two"><div class="field"><label for="dob">Date of birth</label><input id="dob" type="date"></div><div class="field"><label for="admission">Admission number</label><input id="admission" placeholder="GLIS/2019/045"></div></div>
-<div class="two"><div class="field"><label for="session">Academic session</label><input id="session" value="2025/2026"></div><div class="field"><label for="completion">Completion date</label><input id="completion" type="date"></div></div>
-<div class="field"><label for="serial">Certificate number</label><input id="serial" value="FSLC/2026/001"></div>
-</div>
-<div class="section"><h3>Certificate background</h3><div class="palette">
-<button class="swatch" type="button" data-bg="#fff3d8" data-bg2="#f4dfad" aria-pressed="true"><span style="background:linear-gradient(135deg,#fff3d8,#f4dfad)"></span>Ivory gold</button>
-<button class="swatch" type="button" data-bg="#dceeff" data-bg2="#b8d8f4" aria-pressed="false"><span style="background:linear-gradient(135deg,#dceeff,#b8d8f4)"></span>Sky blue</button>
-<button class="swatch" type="button" data-bg="#e2f1df" data-bg2="#c3dfbd" aria-pressed="false"><span style="background:linear-gradient(135deg,#e2f1df,#c3dfbd)"></span>Mint green</button>
-<button class="swatch" type="button" data-bg="#f8dfe8" data-bg2="#edc2d2" aria-pressed="false"><span style="background:linear-gradient(135deg,#f8dfe8,#edc2d2)"></span>Blush pink</button>
-<button class="swatch" type="button" data-bg="#e8e1f7" data-bg2="#d0c3ed" aria-pressed="false"><span style="background:linear-gradient(135deg,#e8e1f7,#d0c3ed)"></span>Lavender</button>
-<button class="swatch" type="button" data-bg="#f7e7cf" data-bg2="#e9c99f" aria-pressed="false"><span style="background:linear-gradient(135deg,#f7e7cf,#e9c99f)"></span>Peach</button>
-<button class="swatch" type="button" data-bg="#e3e7eb" data-bg2="#cbd3dc" aria-pressed="false"><span style="background:linear-gradient(135deg,#e3e7eb,#cbd3dc)"></span>Silver</button>
-<button class="swatch" type="button" data-bg="#f2e4c9" data-bg2="#dfc58f" aria-pressed="false"><span style="background:linear-gradient(135deg,#f2e4c9,#dfc58f)"></span>Champagne</button>
-</div>
-<div class="field" style="margin-top:12px"><label for="customBg">Choose your own background colour</label><div class="color-row"><input id="customBg" type="color" value="#fff3d8"><span class="hint">Pick any colour; a lighter companion shade is generated automatically.</span></div></div>
-</div>
-<div class="section"><h3>Certificate wording & signatures</h3>
-<div class="field"><label for="wording">Certificate statement</label><textarea id="wording">Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.</textarea></div>
-<div class="two"><div class="field"><label for="sign1">First signatory title</label><input id="sign1" value="Headteacher"></div><div class="field"><label for="sign2">Second signatory title</label><input id="sign2" value="Proprietor / Proprietress"></div></div>
-</div>
-<div class="btns"><button class="btn" id="printBtn" type="button">Print / Save as PDF</button><button class="btn secondary" id="resetBtn" type="button">Reset details</button></div>
-<p class="hint">For best print results, enable “Background graphics” in your browser's print settings.</p>
-</aside>
-<section class="preview-wrap"><div class="preview-title no-print"><h2>Live certificate preview</h2><span class="hint">A4 landscape</span></div><div class="preview-scroll">
-<article class="certificate" id="certificate" aria-label="Certificate preview"><div class="cert-inner">
-<div class="cert-meta"><span class="serial" id="previewSerial">Certificate No: FSLC/2026/001</span><span class="contact" id="previewContact"></span></div>
-<div class="brand-row"><h2 class="school" id="previewSchool">Golden Light International School</h2><div class="logo-frame" id="logoFrame"><span class="logo-placeholder">SCHOOL<br>LOGO</span><img id="previewLogo" alt="Uploaded school logo"></div></div>
-<p class="address" id="previewAddress">Lagos State, Nigeria</p><div class="rule"></div>
-<h1 class="cert-heading">First School Leaving Certificate</h1><p class="subtitle">This is to certify that</p><div class="student" id="previewStudent">Chisom Example</div>
-<p class="statement" id="previewWording">Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.</p>
-<div class="details"><div><strong>Date of Birth:</strong> <span id="previewDob">—</span></div><div><strong>Admission Number:</strong> <span id="previewAdmission">—</span></div><div><strong>Academic Session:</strong> <span id="previewSession">2025/2026</span></div><div><strong>Date of Completion:</strong> <span id="previewCompletion">—</span></div></div>
-<div class="foil-seal" role="img" aria-label="Red embossed decorative rosette seal"></div>
-<div class="signatures"><div class="sig"><div class="sigline" id="previewSign1">Headteacher</div></div><div class="sig"><div class="sigline" id="previewSign2">Proprietor / Proprietress</div></div></div>
-<p class="footer" id="previewFooter">Issued by the management of Golden Light International School.</p>
-</div></article></div></section>
+  <section class="panel no-print" aria-labelledby="detailsHeading">
+    <h2 id="detailsHeading">Certificate details</h2>
+    <form id="certForm" autocomplete="off">
+      <div class="field">
+        <label for="schoolName">School name</label>
+        <input id="schoolName" type="text" required maxlength="80">
+      </div>
+      <div class="field">
+        <label for="schoolAddress">School address</label>
+        <input id="schoolAddress" type="text" maxlength="100">
+      </div>
+      <div class="field">
+        <label for="schoolContact">School contact (optional)</label>
+        <input id="schoolContact" type="text" maxlength="80" placeholder="Phone number, email or website">
+      </div>
+      <div class="field">
+        <label for="logoUpload">School logo (optional)</label>
+        <input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+        <p class="hint">PNG, JPG, WebP or SVG, up to 2 MB. The logo is fitted inside a square frame, never stretched or allowed to spill out.</p>
+        <p class="notice" id="logoNotice" role="status" hidden>
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M12 3 2 21h20L12 3ZM13 17h-2v-2h2v2ZM13 13h-2V9h2v4Z"/></svg>
+          <span></span>
+        </p>
+      </div>
+
+      <div class="section">
+        <h3>Student details</h3>
+
+        <div class="field">
+          <label for="studentName">Student's full name</label>
+          <input id="studentName" type="text" required maxlength="60" autocapitalize="words">
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="dob">Date of birth</label>
+            <input id="dob" type="date" required min="1950-01-01">
+          </div>
+          <div class="field">
+            <label for="admission">Admission number (optional)</label>
+            <input id="admission" type="text" maxlength="30" placeholder="GLIS/2019/045">
+          </div>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="session">Academic session</label>
+            <input id="session" type="text" required maxlength="9" pattern="\d{4}/\d{4}" title="Format: 2025/2026" placeholder="2025/2026">
+          </div>
+          <div class="field">
+            <label for="completion">Completion date</label>
+            <input id="completion" type="date" required min="1950-01-01">
+          </div>
+        </div>
+        <div class="field">
+          <label for="serial">Certificate number</label>
+          <input id="serial" type="text" required maxlength="30">
+        </div>
+      </div>
+
+      <div class="section">
+        <h3 id="bgHeading">Certificate background</h3>
+
+        <div class="palette" id="palette" role="group" aria-labelledby="bgHeading"></div>
+        <div class="field" style="margin-top:.75rem">
+          <label for="customBg">Choose your own background colour</label>
+          <div class="color-row">
+            <input id="customBg" type="color" value="#fff3d8">
+            <span class="hint">Pick any colour. A lighter companion shade is generated, and the text colour switches automatically so it stays readable.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Certificate wording &amp; signatures</h3>
+        <div class="field">
+          <label for="wording">Certificate statement</label>
+          <textarea id="wording" required maxlength="400"></textarea>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="sign1">First signatory title</label>
+            <input id="sign1" type="text" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="sign2">Second signatory title</label>
+            <input id="sign2" type="text" maxlength="40">
+          </div>
+        </div>
+      </div>
+
+      <div class="btns">
+        <button class="btn" id="printBtn" type="button">Print / Save as PDF</button>
+        <button class="btn secondary" id="resetBtn" type="button">Reset details</button>
+      </div>
+
+      <p class="hint">Fields not marked optional are required before you can print. For best print results, enable “Background graphics” in your browser's print settings.</p>
+    </form>
+  </section>
+
+  <section class="preview-wrap" aria-labelledby="previewHeading">
+    <div class="preview-title no-print">
+      <h2 id="previewHeading">Live certificate preview</h2>
+      <span class="hint">A4 landscape</span>
+    </div>
+    <p class="notice no-print" id="layoutNotice" role="status" hidden>
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M12 3 2 21h20L12 3ZM13 17h-2v-2h2v2ZM13 13h-2V9h2v4Z"/></svg>
+      <span></span>
+    </p>
+    <div class="preview-scroll" tabindex="0" role="region" aria-label="Certificate preview, scrolls sideways on small screens">
+      <article class="certificate" id="certificate" data-ink="dark" aria-label="Certificate preview">
+        <div class="cert-inner" id="certInner">
+          <div class="cert-meta">
+            <span class="serial" id="previewSerial"></span>
+            <span class="contact" id="previewContact"></span>
+          </div>
+          <div class="brand-row">
+            <p class="school" id="previewSchool"></p>
+            <div class="logo-frame" id="logoFrame">
+              <span class="logo-placeholder">SCHOOL LOGO</span>
+              <img id="previewLogo" alt="School logo" width="88" height="88" decoding="async">
+            </div>
+          </div>
+          <p class="address" id="previewAddress"></p>
+          <div class="rule"></div>
+          <h3 class="cert-heading">First School Leaving Certificate</h3>
+          <p class="subtitle">This is to certify that</p>
+          <p class="student" id="previewStudent"></p>
+
+          <p class="statement" id="previewWording"></p>
+          <dl class="details">
+            <div><dt>Date of Birth:</dt><dd id="previewDob"></dd></div>
+            <div><dt>Admission Number:</dt><dd id="previewAdmission"></dd></div>
+            <div><dt>Academic Session:</dt><dd id="previewSession"></dd></div>
+            <div><dt>Date of Completion:</dt><dd id="previewCompletion"></dd></div>
+          </dl>
+          <div class="seal" role="img" aria-label="Red embossed decorative rosette seal"><span class="rosette"></span></div>
+          <div class="signatures">
+            <div class="sig"><div class="sigline" id="previewSign1"></div></div>
+            <div class="sig"><div class="sigline" id="previewSign2"></div></div>
+          </div>
+          <p class="footer" id="previewFooter"></p>
+        </div>
+      </article>
+    </div>
+  </section>
 </main>
-<script>
-'use strict';
+
+<dialog id="resetDialog" class="no-print" aria-labelledby="resetTitle">
+  <form method="dialog">
+    <h2 id="resetTitle">Reset all details?</h2>
+    <p>This replaces everything you have typed with the sample values and removes the logo.</p>
+    <div class="btns">
+      <button class="btn secondary" value="cancel" autofocus>Cancel</button>
+      <button class="btn danger" value="confirm">Reset details</button>
+    </div>
+  </form>
+</dialog>
+
+<script type="module">
 const $ = id => document.getElementById(id);
-const fields = ['schoolName','schoolAddress','schoolContact','studentName','dob','admission','session','completion','serial','wording','sign1','sign2'];
-function formatDate(value){if(!value)return '—';const date=new Date(value+'T00:00:00');return date.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});}
-function updatePreview(){
- $('previewSchool').textContent=$('schoolName').value.trim()||'SCHOOL NAME';
- $('previewAddress').textContent=$('schoolAddress').value.trim();
- $('previewContact').textContent=$('schoolContact').value.trim();
- $('previewSerial').textContent='Certificate No: '+($('serial').value.trim()||'—');
- $('previewStudent').textContent=$('studentName').value.trim()||"STUDENT'S FULL NAME";
- $('previewWording').textContent=$('wording').value.trim();
- $('previewDob').textContent=formatDate($('dob').value);
- $('previewAdmission').textContent=$('admission').value.trim()||'—';
- $('previewSession').textContent=$('session').value.trim()||'—';
- $('previewCompletion').textContent=formatDate($('completion').value);
- $('previewSign1').textContent=$('sign1').value.trim()||' ';
- $('previewSign2').textContent=$('sign2').value.trim()||' ';
- $('previewFooter').textContent='Issued by the management of '+($('schoolName').value.trim()||'the school')+'.';
+
+const controller = new AbortController();
+const { signal } = controller;
+
+const SAMPLE = {
+  schoolName: 'Golden Light International School',
+  schoolAddress: 'Lagos State, Nigeria',
+  schoolContact: '',
+  studentName: 'Chisom Example',
+  dob: '',
+  admission: '',
+  session: '2025/2026',
+  completion: '',
+  serial: 'FSLC/2026/001',
+  wording: "Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.",
+  sign1: 'Headteacher',
+  sign2: 'Proprietor / Proprietress'
+};
+const DEFAULT_PAPER = { bg: '#fff3d8', bg2: '#f4dfad' };
+const PALETTE = [
+  { name: 'Ivory gold', bg: '#fff3d8', bg2: '#f4dfad' },
+  { name: 'Sky blue', bg: '#dceeff', bg2: '#b8d8f4' },
+  { name: 'Mint green', bg: '#e2f1df', bg2: '#c3dfbd' },
+  { name: 'Blush pink', bg: '#f8dfe8', bg2: '#edc2d2' },
+  { name: 'Lavender', bg: '#e8e1f7', bg2: '#d0c3ed' },
+  { name: 'Peach', bg: '#f7e7cf', bg2: '#e9c99f' },
+  { name: 'Silver', bg: '#e3e7eb', bg2: '#cbd3dc' },
+  { name: 'Champagne', bg: '#f2e4c9', bg2: '#dfc58f' }
+];
+const LOGO_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml']);
+const MAX_LOGO_BYTES = 2 * 1024 * 1024;
+const MIN_DATE = '1950-01-01';
+const DARK_INK = '#172b4d';
+
+const LIGHT_INK = '#fffaf0';
+
+const form = $('certForm');
+const certificate = $('certificate');
+const previewLogo = $('previewLogo');
+const logoFrame = $('logoFrame');
+let logoUrl = null;
+
+const dateFormat = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+function parseIsoDate(value) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  return match ? new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3])) : null;
 }
-fields.forEach(id=>$(id).addEventListener('input',updatePreview));
-$('printBtn').addEventListener('click',()=>window.print());
-$('logoUpload').addEventListener('change',event=>{
- const file=event.target.files&&event.target.files[0];if(!file)return;
- if(!file.type.startsWith('image/')){alert('Please choose an image file for the school logo.');event.target.value='';return;}
- const reader=new FileReader();
- reader.onload=()=>{$('previewLogo').src=reader.result;$('logoFrame').classList.add('has-logo');};
- reader.onerror=()=>alert('The logo could not be read. Please try another image.');
- reader.readAsDataURL(file);
+
+function formatDate(value) {
+  const date = parseIsoDate(value);
+  return date ? dateFormat.format(date) : '—';
+}
+
+function todayIso() {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+function showNotice(id, message) {
+  const notice = $(id);
+  notice.hidden = !message;
+  notice.querySelector('span').textContent = message;
+}
+
+
+function validateRelations() {
+  const dob = $('dob');
+  const completion = $('completion');
+  const session = $('session');
+  dob.max = todayIso();
+  completion.min = dob.value || MIN_DATE;
+  const years = /^(\d{4})\/(\d{4})$/.exec(session.value.trim());
+  const consecutive = !years || Number(years[2]) === Number(years[1]) + 1;
+  session.setCustomValidity(consecutive ? '' : 'The two years must be consecutive, for example 2025/2026.');
+}
+
+function checkLayout() {
+  const inner = $('certInner');
+  const overflows = inner.scrollHeight > inner.clientHeight + 1 || inner.scrollWidth > inner.clientWidth + 1;
+  showNotice('layoutNotice', overflows
+    ? 'The text is too long to fit on the certificate. Shorten the statement, names or address before printing.'
+    : '');
+  return !overflows;
+}
+
+function updatePreview() {
+  const value = id => $(id).value.trim();
+  const setText = (id, text) => { $(id).textContent = text; };
+  setText('previewSchool', value('schoolName') || 'SCHOOL NAME');
+  setText('previewAddress', value('schoolAddress'));
+  setText('previewContact', value('schoolContact'));
+  setText('previewSerial', `Certificate No: ${value('serial') || '—'}`);
+  setText('previewStudent', value('studentName') || "STUDENT'S FULL NAME");
+  setText('previewWording', value('wording'));
+  setText('previewDob', formatDate($('dob').value));
+  setText('previewAdmission', value('admission') || '—');
+
+  setText('previewSession', value('session') || '—');
+  setText('previewCompletion', formatDate($('completion').value));
+  setText('previewSign1', value('sign1') || ' ');
+  setText('previewSign2', value('sign2') || ' ');
+  setText('previewFooter', `Issued by the management of ${value('schoolName') || 'the school'}.`);
+  validateRelations();
+  checkLayout();
+}
+
+function hexToRgb(hex) {
+  const value = hex.replace('#', '');
+  return {
+    r: parseInt(value.slice(0, 2), 16),
+    g: parseInt(value.slice(2, 4), 16),
+    b: parseInt(value.slice(4, 6), 16)
+  };
+}
+
+function lighten(hex, amount = 0.13) {
+  const { r, g, b } = hexToRgb(hex);
+  return '#' + [r, g, b]
+    .map(v => Math.round(v + (255 - v) * amount).toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function luminance(hex) {
+  const { r, g, b } = hexToRgb(hex);
+  const channel = v => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+
+}
+
+function contrast(a, b) {
+  return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+}
+
+function pickInk(bg, bg2) {
+  const papers = [luminance(bg), luminance(bg2)];
+  const worst = ink => Math.min(...papers.map(paper => contrast(paper, luminance(ink))));
+  return worst(DARK_INK) >= worst(LIGHT_INK) ? 'dark' : 'light';
+}
+
+function setPaper(bg, bg2) {
+  certificate.style.setProperty('--paper', bg);
+  certificate.style.setProperty('--paper2', bg2);
+  certificate.dataset.ink = pickInk(bg, bg2);
+  $('customBg').value = bg;
+  $('palette').querySelectorAll('.swatch').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.bg === bg.toLowerCase()));
+  });
+}
+
+function buildPalette() {
+  const group = $('palette');
+  PALETTE.forEach(({ name, bg, bg2 }) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'swatch';
+    button.dataset.bg = bg;
+    button.dataset.bg2 = bg2;
+    button.setAttribute('aria-pressed', 'false');
+    const chip = document.createElement('span');
+
+    chip.className = 'chip';
+    chip.style.setProperty('--a', bg);
+    chip.style.setProperty('--b', bg2);
+    button.append(chip, name);
+    group.append(button);
+  });
+  group.addEventListener('click', event => {
+    const button = event.target.closest('.swatch');
+    if (button) setPaper(button.dataset.bg, button.dataset.bg2);
+  }, { signal });
+}
+
+function clearLogo() {
+  if (logoUrl) {
+    URL.revokeObjectURL(logoUrl);
+    logoUrl = null;
+  }
+  previewLogo.removeAttribute('src');
+  logoFrame.classList.remove('has-logo');
+}
+
+function applyValues(values) {
+  Object.entries(values).forEach(([id, value]) => { $(id).value = value; });
+}
+
+function applyDefaults() {
+  applyValues(SAMPLE);
+  $('logoUpload').value = '';
+  clearLogo();
+  showNotice('logoNotice', '');
+  setPaper(DEFAULT_PAPER.bg, DEFAULT_PAPER.bg2);
+  updatePreview();
+
+}
+
+previewLogo.addEventListener('load', () => {
+  logoFrame.classList.add('has-logo');
+  showNotice('logoNotice', '');
+  checkLayout();
+}, { signal });
+
+previewLogo.addEventListener('error', () => {
+  if (!previewLogo.getAttribute('src')) return;
+  clearLogo();
+  $('logoUpload').value = '';
+  showNotice('logoNotice', 'That image could not be displayed. Please try another file.');
+}, { signal });
+
+$('logoUpload').addEventListener('change', event => {
+  const input = event.target;
+  const file = input.files && input.files[0];
+  clearLogo();
+  showNotice('logoNotice', '');
+  if (!file) return;
+  if (!LOGO_TYPES.has(file.type)) {
+    input.value = '';
+    showNotice('logoNotice', 'Please choose a PNG, JPG, WebP or SVG image.');
+    return;
+  }
+  if (file.size > MAX_LOGO_BYTES) {
+    input.value = '';
+    showNotice('logoNotice', 'That image is larger than 2 MB. Please choose a smaller file.');
+    return;
+  }
+  logoUrl = URL.createObjectURL(file);
+
+  previewLogo.src = logoUrl;
+}, { signal });
+
+form.addEventListener('input', updatePreview, { signal });
+form.addEventListener('submit', event => event.preventDefault(), { signal });
+
+$('customBg').addEventListener('input', event => {
+  setPaper(event.target.value, lighten(event.target.value));
+}, { signal });
+
+$('printBtn').addEventListener('click', () => {
+  updatePreview();
+  if (!form.reportValidity() || !checkLayout()) return;
+  window.print();
+}, { signal });
+
+const resetDialog = $('resetDialog');
+$('resetBtn').addEventListener('click', () => resetDialog.showModal(), { signal });
+resetDialog.addEventListener('close', () => {
+  const confirmed = resetDialog.returnValue === 'confirm';
+  resetDialog.returnValue = '';
+  if (confirmed) applyDefaults();
+}, { signal });
+
+window.addEventListener('pagehide', event => {
+  if (event.persisted) return;
+  controller.abort();
+  clearLogo();
 });
-function hexToRgb(hex){const value=hex.replace('#','');return{r:parseInt(value.slice(0,2),16),g:parseInt(value.slice(2,4),16),b:parseInt(value.slice(4,6),16)};}
-function lighten(hex,amount=.13){const c=hexToRgb(hex);const n=[c.r,c.g,c.b].map(v=>Math.round(v+(255-v)*amount));return '#'+n.map(v=>v.toString(16).padStart(2,'0')).join('');}
-function setBackground(bg,bg2){$('certificate').style.setProperty('--paper',bg);$('certificate').style.setProperty('--paper2',bg2);$('customBg').value=bg;document.querySelectorAll('.swatch').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.bg.toLowerCase()===bg.toLowerCase())));}
-document.querySelectorAll('.swatch').forEach(btn=>btn.addEventListener('click',()=>setBackground(btn.dataset.bg,btn.dataset.bg2)));
-$('customBg').addEventListener('input',event=>setBackground(event.target.value,lighten(event.target.value)));
-$('resetBtn').addEventListener('click',()=>{
- if(!confirm('Reset all certificate details to the sample values?'))return;
- const defaults={schoolName:'Golden Light International School',schoolAddress:'Lagos State, Nigeria',schoolContact:'',studentName:'Chisom Example',dob:'',admission:'',session:'2025/2026',completion:'',serial:'FSLC/2026/001',wording:"Having satisfactorily completed the prescribed course of study in the Primary School Programme and fulfilled the school's academic requirements, is hereby awarded this First School Leaving Certificate.",sign1:'Headteacher',sign2:'Proprietor / Proprietress'};
- Object.entries(defaults).forEach(([id,value])=>$(id).value=value);
- $('logoUpload').value='';$('previewLogo').removeAttribute('src');$('logoFrame').classList.remove('has-logo');
- setBackground('#fff3d8','#f4dfad');updatePreview();
-});
-updatePreview();
+
+buildPalette();
+applyDefaults();
+
 </script>
 </body>
 </html>
